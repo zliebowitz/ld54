@@ -5,7 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 export var speed = 10000
-onready var player = get_node("/root/Arena/Player/PlayerBody")
+onready var player = get_node("../../Player/PlayerBody")
 onready var animatedSprite = $AnimatedSprite
 onready var backParticles = $BackParticles
 onready var frontParticles = $FrontParticles

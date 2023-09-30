@@ -17,7 +17,8 @@ func _ready():
 
 # Cuts the screen polygon, based on an angle of cut and an origin point
 func _cut(angle: float, originPoint: Vector2):
-	var player = get_node("../../Player/PlayerBody")
+	var player = get_node("../../../Player/PlayerBody")
+	originPoint = $"../..".to_local(originPoint)
 	if !Geometry.is_point_in_polygon(originPoint, polygon):
 		print("The point isn't in the arena!")
 		return

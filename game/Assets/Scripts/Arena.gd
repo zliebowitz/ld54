@@ -11,7 +11,7 @@ var tearerRatio = 1
 func _ready():
 	rng.randomize()
 	#$EnemyCutter/KinematicBody2D.connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
-	arena = $"Area2D/ScreenPolygon"
+	arena = $"Arena_Anchor/Area2D/ScreenPolygon"
 	$Timer.start(3)
 	
 func _spawn_enemies(point: Vector2):
@@ -20,10 +20,11 @@ func _spawn_enemies(point: Vector2):
 	if (rng.randf() < tearerRatio):
 		enemy = enemyTearer.instance()
 		add_child(enemy)
-		enemy.get_node("KinematicBody2D").connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
+		enemy.get_node("KinematicBody2D").connect("cut_event", $Arena_Anchor/Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 	else: 
 		enemy = enemyPusher.instance()
 		add_child(enemy)
+	enemy.add_to_group("Enemies")
 	enemy.get_node("KinematicBody2D").position = point
 
 func _find_point():
@@ -50,5 +51,8 @@ func _on_Timer_timeout():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	var baddies = get_tree().get_nodes_in_group("Enemies")
+	#for enemy in baddies:
+	#if !Geometry.is_point_in_pdolygon(enemy.position, )
+	#pass
