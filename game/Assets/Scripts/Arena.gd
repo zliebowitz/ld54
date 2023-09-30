@@ -5,6 +5,7 @@ var arena
 var rng = RandomNumberGenerator.new()
 var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
+var item01        =  load("res://Assets/Scenes/Item.tscn")
 var tearerRatio = 1
 
 # Called when the node enters the scene tree for the first time.
@@ -25,6 +26,22 @@ func _spawn_enemies(point: Vector2):
 		enemy = enemyPusher.instance()
 		add_child(enemy)
 	enemy.get_node("KinematicBody2D").position = point
+	
+func _spawn_item(point: Vector2):
+	var count = 0
+	for child in self.get_children():
+		if "Item" in child.name:
+			if child.pickedUp:
+				remove_child(child)
+			else:
+				count+=1
+	if(count > 2):
+		return
+	var item
+	item = item01.instance()
+	add_child(item)
+			
+	item.get_node("ItemBody").position = point
 
 func _find_point():
 	var tempArena = arena.duplicate()
@@ -46,6 +63,9 @@ func _find_point():
 func _on_Timer_timeout():
 	var randomPoint = _find_point()
 	_spawn_enemies(randomPoint)
+	
+	var randomPointItem = _find_point()
+	_spawn_item(randomPointItem)
 	pass # Replace with function body.
 
 
