@@ -16,5 +16,14 @@ texture = ExtResource( 3 )
 [node name="Target" type="Node2D" parent="." index="7" groups=["collectibles"]]
 position = Vector2( 725, 222 )
 
-[node name="Target2" type="Node2D" parent="." index="8" groups=["collectibles"]]
+[node name="Target3" type="Node2D" parent="." index="8" groups=["collectibles"]]
+position = Vector2( 145, 406 )
+
+[node name="Target4" type="Node2D" parent="." index="9" groups=["collectibles"]]
+position = Vector2( -99, 172 )
+
+[node name="Target5" type="Node2D" parent="." index="10" groups=["collectibles"]]
+position = Vector2( 480, -74 )
+
+[node name="Target2" type="Node2D" parent="." index="11" groups=["collectibles"]]
 position = Vector2( 325, 227 )

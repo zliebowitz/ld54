@@ -24,6 +24,7 @@ position = Vector2( -43.9, -24.5 )
 polygon = PoolVector2Array( 43, 24, 978, 25, 979, 569, 42, 569 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 325, 205 )
 
 [node name="Enemy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 778, 468 )
