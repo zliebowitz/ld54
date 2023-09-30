@@ -8,6 +8,7 @@ var screen_size # Size of the game window.
 
 func _ready():
 	screen_size = get_viewport_rect().size
+
 	
 func get_input():
 	velocity = Vector2()
@@ -41,5 +42,5 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	rotation = rotation_dir
 	
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	global_position.x = clamp(global_position.x, 0, screen_size.x)
+	global_position.y = clamp(global_position.y, 0, screen_size.y)
