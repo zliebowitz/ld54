@@ -5,6 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 export var speed = 10000
+onready var player = get_node("/root/Arena/Player/PlayerBody")
 var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var charging = false
@@ -23,7 +24,6 @@ func _ready():
 
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
-	var player = get_node("/root/Screen/Player/PlayerBody")
 	if player && !charging:
 		var my_position = global_position
 		var player_position = player.global_position
@@ -46,7 +46,7 @@ func _on_Timer_timeout():
 		$AnimatedSprite.play("attack")
 		charging = true
 		angle = rng.randf_range(0, PI)
-		rotate(0 - angle)
+		rotation = -(angle + PI/2)
 		$Timer.start(3)
 		return
 		

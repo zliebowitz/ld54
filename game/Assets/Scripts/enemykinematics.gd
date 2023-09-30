@@ -17,7 +17,7 @@ func _ready():
 	
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
-	var player = get_node("/root/Screen/Player/PlayerBody")
+	var player = get_node("/root/Arena/Player/PlayerBody")
 	if player:
 		var my_position = global_position
 		var player_position = player.global_position
@@ -46,9 +46,9 @@ func _on_CloseRange_body_shape_entered(_body_rid, body, _body_shape_index, _loca
 
 
 func _on_Timer_timeout():
-	player = get_node("/root/Screen/Player/PlayerBody")
+	player = get_node("/root/Arena/Player/PlayerBody")
 	if player && $Punch.overlaps_body(player):
 		norm_velocity = global_position.direction_to(player.global_position).normalized()
-		print("roblox.oof")
+		#print("roblox.oof")
 		player.move_and_collide(norm_velocity * punch_force)
 	preparing = false
