@@ -22,12 +22,12 @@ func _ready():
 
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
-	var player = get_node("/root/Screen/Player/KinematicBody2D")
+	var player = get_node("/root/Screen/Player/PlayerBody")
 	if player && !charging:
 		var my_position = global_position
 		var player_position = player.global_position
 		var norm_velocity = my_position.direction_to(player_position).normalized()
-		rotation =  my_position.angle_to(player_position) + 90
+		rotation =  norm_velocity.angle() + PI/2
 		velocity = delta * speed * norm_velocity
 	move_and_slide(velocity)
 	
