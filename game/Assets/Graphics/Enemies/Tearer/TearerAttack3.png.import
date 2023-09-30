@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tearer6.png-1b423a81fa43506dd4b037ae7c95ac49.stex"
+path="res://.import/TearerAttack3.png-b8780a0f3b25ca558dfe25828443d87b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/Enemies/Tearer6.png"
-dest_files=[ "res://.import/Tearer6.png-1b423a81fa43506dd4b037ae7c95ac49.stex" ]
+source_file="res://Assets/Graphics/Enemies/Tearer/TearerAttack3.png"
+dest_files=[ "res://.import/TearerAttack3.png-b8780a0f3b25ca558dfe25828443d87b.stex" ]
 
 [params]
 

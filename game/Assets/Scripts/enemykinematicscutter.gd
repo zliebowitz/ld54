@@ -18,6 +18,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	rng.randomize()
 	$Timer.start(2)
+	$AnimatedSprite.play("default")
 	
 
 func _physics_process(delta):
@@ -42,6 +43,7 @@ func _physics_process(delta):
 
 func _on_Timer_timeout():
 	if !charging:
+		$AnimatedSprite.play("attack")
 		charging = true
 		angle = rng.randf_range(0, PI)
 		rotate(0 - angle)

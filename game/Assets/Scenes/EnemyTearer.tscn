@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Scripts/enemykinematicscutter.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Graphics/Enemies/TearerFrames.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerFrames.tres" type="SpriteFrames" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15, 15 )
@@ -16,7 +16,8 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = ExtResource( 3 )
-frame = 5
+animation = "attack"
+frame = 3
 playing = true
 
 [node name="Timer" type="Timer" parent="KinematicBody2D"]

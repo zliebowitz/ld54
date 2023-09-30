@@ -1,0 +1,34 @@
+[gd_resource type="SpriteFrames" load_steps=20 format=2]
+
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer2.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer3.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer1.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer8.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer4.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer5.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer9.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer7.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/Tearer6.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack4.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack5.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack6.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack1.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack7.png" type="Texture" id=14]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack2.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack8.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack9.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack10.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerAttack3.png" type="Texture" id=19]
+
+[resource]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 15 ), ExtResource( 19 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
