@@ -11,6 +11,7 @@ var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var preparing = false
 var norm_velocity = Vector2.ZERO
+var frametime = 0
 
 
 func _ready():
@@ -18,6 +19,7 @@ func _ready():
 	
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
+	if frametime < 10: frametime += 1
 	if player:
 		var my_position = global_position
 		var player_position = player.global_position
@@ -27,8 +29,8 @@ func _physics_process(delta):
 		velocity = delta * speed * norm_velocity	
 	if !preparing: move_and_slide(velocity)
 	
-	global_position.x = clamp(global_position.x, 0, screen_size.x)
-	global_position.y = clamp(global_position.y, 0, screen_size.y)
+	#global_position.x = clamp(global_position.x, 0, screen_size.x)
+	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

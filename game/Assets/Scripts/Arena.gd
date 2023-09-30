@@ -1,11 +1,12 @@
 extends Node2D
 
 
-var arena
+onready var arena = get_node("Arena_Anchor/Area2D/ScreenPolygon")
 var rng = RandomNumberGenerator.new()
 var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var tearerRatio = 1
+var framelock = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,8 +25,10 @@ func _spawn_enemies(point: Vector2):
 	else: 
 		enemy = enemyPusher.instance()
 		add_child(enemy)
-	enemy.add_to_group("Enemies")
-	enemy.get_node("KinematicBody2D").position = point
+	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
+	#print(enemy.get_node("KinematicBody2D"))
+	enemy.add_to_group("enemies")
+	
 
 func _find_point():
 	var tempArena = arena.duplicate()
@@ -46,13 +49,28 @@ func _find_point():
 
 func _on_Timer_timeout():
 	var randomPoint = _find_point()
+	print(randomPoint)
 	_spawn_enemies(randomPoint)
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var baddies = get_tree().get_nodes_in_group("Enemies")
-	#for enemy in baddies:
-	#if !Geometry.is_point_in_pdolygon(enemy.position, )
+	if framelock:
+		framelock = false
+		return
+	var baddies = get_tree().get_nodes_in_group("enemies")
+	for hitlist in baddies:			#See if any enemies are outsize the zone. If so, kill them
+		var body = hitlist.get_node("KinematicBody2D")   #The actual body of the enemy
+		if !Geometry.is_point_in_polygon(arena.to_local(body.position), arena.polygon) && body.frametime > 9:
+			#print(hitlist.get_node("../Arena_Anchor/Area2D/ScreenPolygon").to_local(body.position))
+			hitlist.queue_free()
+			#print(hitlist.get_node("KinematicBody2D").position)
+			
 	#pass
+	
+	#originPoint = $"../..".to_local(originPoint)
+
+
+func _on_framelock(status):
+	framelock = status

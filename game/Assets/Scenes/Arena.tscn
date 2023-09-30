@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Scripts/ScreenPolygon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Scenes/Josh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Scripts/ScreenArea.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Scenes/Enemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Scripts/Arena.gd" type="Script" id=6]
 [ext_resource path="res://Assets/Scenes/Item.tscn" type="PackedScene" id=7]
 
@@ -21,21 +20,14 @@ polygon = PoolVector2Array( 5, 5, 635, 5, 635, 347, 5, 347 )
 script = ExtResource( 1 )
 
 [node name="ScreenCollision" type="CollisionPolygon2D" parent="Arena_Anchor/Area2D"]
-position = Vector2( -43.9, -24.5 )
-polygon = PoolVector2Array( 43, 24, 978, 25, 979, 569, 42, 569 )
+polygon = PoolVector2Array( 5, 5, 635, 5, 635, 347, 5, 347 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-
-[node name="Enemy" parent="." groups=["Enemies"] instance=ExtResource( 4 )]
-position = Vector2( 778, 468 )
-
-[node name="Enemy2" parent="." groups=["Enemies"] instance=ExtResource( 4 )]
-position = Vector2( 183, 154 )
 
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Item" parent="." instance=ExtResource( 7 )]
 position = Vector2( 540, 147 )
 
-[connection signal="body_shape_exited" from="Arena_Anchor/Area2D" to="." method="_on_ArenaArea_exited"]
+[connection signal="framelock" from="Arena_Anchor/Area2D/ScreenPolygon" to="." method="_on_framelock"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

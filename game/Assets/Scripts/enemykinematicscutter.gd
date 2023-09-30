@@ -15,6 +15,7 @@ var charging = false
 var rng = RandomNumberGenerator.new()
 var angle: float
 var animationTimer = -1
+var frametime = 0
 
 signal cut_event(angle, originPoint)
 
@@ -28,6 +29,7 @@ func _ready():
 
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
+	if frametime < 10: frametime += 1
 	if player && !charging:
 		var my_position = global_position
 		var player_position = player.global_position
@@ -36,8 +38,8 @@ func _physics_process(delta):
 		velocity = delta * speed * norm_velocity
 	move_and_slide(velocity)
 	
-	global_position.x = clamp(global_position.x, 0, screen_size.x)
-	global_position.y = clamp(global_position.y, 0, screen_size.y)
+	#global_position.x = clamp(global_position.x, 0, screen_size.x)
+	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,9 +64,9 @@ func _on_Timer_timeout():
 		animationTimer = 0
 		return
 		
-	print("Cut you!")
+	#print("Cut you!")
 	emit_signal("cut_event", angle, position)
-	queue_free()
+	get_parent().queue_free()
 
 
 
