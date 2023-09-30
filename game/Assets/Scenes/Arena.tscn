@@ -32,5 +32,4 @@ position = Vector2( 183, 154 )
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="body_shape_exited" from="Area2D" to="Player" method="_on_Screen_Area_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
