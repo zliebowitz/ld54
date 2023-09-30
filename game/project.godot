@@ -53,6 +53,12 @@ ui_down={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="General Layer"
+2d_physics/layer_2="Enemy Layer"
+2d_physics/layer_general=false
+
 [mono]
 
 project/assembly_name="Game"
