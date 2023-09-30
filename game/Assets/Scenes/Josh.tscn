@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Graphics/Player/PlayerAnimations.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Scripts/ControlPlayer.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="CircleShape2D" id=2]
 
 [node name="Player" type="Node2D"]
 
@@ -20,3 +22,14 @@ shape = SubResource( 1 )
 frames = ExtResource( 1 )
 animation = "idle"
 playing = true
+
+[node name="PlayerKick" type="Area2D" parent="PlayerBody"]
+scale = Vector2( 500, 500 )
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody/PlayerKick"]
+shape = SubResource( 2 )
+
+[node name="CanKickAgainTimer" type="Timer" parent="PlayerBody"]
+one_shot = true

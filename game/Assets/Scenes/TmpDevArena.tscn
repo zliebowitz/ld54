@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Scenes/Arena.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Scripts/IndicatorArrow.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Graphics/triangle.png" type="Texture" id=3]
 
 [node name="Screen" instance=ExtResource( 1 )]
 
@@ -10,4 +12,9 @@ position = Vector2( 49, 42 )
 [node name="EnemyCutter" parent="." index="4"]
 position = Vector2( 539, 302 )
 
-[node name="TargetIndicator" type="Node2D" parent="." index="5"]
+[node name="Indicator" type="Node2D" parent="." index="5"]
+position = Vector2( 385, 95 )
+script = ExtResource( 2 )
+
+[node name="Arrow" type="Sprite" parent="Indicator" index="0"]
+texture = ExtResource( 3 )
