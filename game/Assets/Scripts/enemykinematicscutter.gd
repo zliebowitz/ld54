@@ -6,11 +6,15 @@ extends KinematicBody2D
 # var b = "text"
 export var speed = 10000
 onready var player = get_node("/root/Arena/Player/PlayerBody")
+onready var animatedSprite = $AnimatedSprite
+onready var backParticles = $BackParticles
+onready var frontParticles = $FrontParticles
 var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var charging = false
 var rng = RandomNumberGenerator.new()
 var angle: float
+var animationTimer = -1
 
 signal cut_event(angle, originPoint)
 
@@ -19,7 +23,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	rng.randomize()
 	$Timer.start(2)
-	$AnimatedSprite.play("default")
+	animatedSprite.play("default")
 	
 
 func _physics_process(delta):
@@ -37,17 +41,25 @@ func _physics_process(delta):
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if animationTimer >= 0:
+		animationTimer += delta
+		if animationTimer >= 0.5:
+			animatedSprite.play("charge")
+			backParticles.emitting = true
+			backParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * 500
+			frontParticles.emitting = true
+			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -500
 
 
 func _on_Timer_timeout():
 	if !charging:
-		$AnimatedSprite.play("attack")
+		animatedSprite.play("attack")
 		charging = true
 		angle = rng.randf_range(0, PI)
 		rotation = -(angle + PI/2)
 		$Timer.start(3)
+		animationTimer = 0
 		return
 		
 	print("Cut you!")
