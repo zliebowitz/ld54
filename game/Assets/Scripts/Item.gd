@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 signal hit
 
@@ -7,5 +7,5 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	print("Item _on_Area2D_body_entered ", body.name)
-	if body.name == "KinematicBody2D":
+	if body.name == "PlayerBody":
 		hide()
