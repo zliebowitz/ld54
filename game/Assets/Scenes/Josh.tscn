@@ -25,7 +25,6 @@ func _ready():
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="Player" type="Node2D"]
-position = Vector2( 478, 278 )
 script = SubResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
