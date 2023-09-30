@@ -4,7 +4,7 @@ var topLeft = Vector2(0,0)
 var topRight = Vector2(1000, 0)
 var bottomRight = Vector2(1000,1000)
 var bottomLeft = Vector2(0, 1000)
-var DEBUG = true
+var DEBUG = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,8 +17,9 @@ func _ready():
 
 # Cuts the screen polygon, based on an angle of cut and an origin point
 func _cut(angle: float, originPoint: Vector2):
+	var player = get_node("../../Player/KinematicBody2D")
 	if !Geometry.is_point_in_polygon(originPoint, polygon):
-		print("The point isn't in the screen!")
+		print("The point isn't in the arena!")
 		return
 	
 	var rightNodey = originPoint.y - ((1000-originPoint.x) * tan(angle))
@@ -33,15 +34,17 @@ func _cut(angle: float, originPoint: Vector2):
 	var finalPolygonLeft = PoolVector2Array(Geometry.intersect_polygons_2d(cutPolygonLeft, polygon)[0])
 	var finalPolygonRight = PoolVector2Array(Geometry.intersect_polygons_2d(cutPolygonRight, polygon)[0])
 	
-	
-	
-	#for testing, just take the right one
-	polygon = finalPolygonRight
+	#Check for which portion the player is in, and leave that one
+	if player && Geometry.is_point_in_polygon(player.position, finalPolygonLeft):
+		polygon = finalPolygonLeft
+	else:
+		polygon = finalPolygonRight
+	print(Geometry.is_point_in_polygon(player.position, finalPolygonLeft))
 	get_node("../ScreenCollision").polygon = polygon
-	print(polygon)
-	print(get_node("../ScreenCollision").polygon)
+	#print(get_node("../ScreenCollision").polygon)
 
-
+func _on_EnemyCutter_cut_event(angle, origin):
+	_cut(angle, origin)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
