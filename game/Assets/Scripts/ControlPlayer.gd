@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+onready var _animated_sprite = $AnimatedSprite
+
 export (int) var speed = 300
 
 var velocity = Vector2()
@@ -44,3 +46,9 @@ func _physics_process(delta):
 	
 	global_position.x = clamp(global_position.x, 0, screen_size.x)
 	global_position.y = clamp(global_position.y, 0, screen_size.y)
+	
+func _process(delta):
+	if velocity == Vector2.ZERO:
+		 _animated_sprite.play("idle")
+	else:
+		_animated_sprite.play("walk")
