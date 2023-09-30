@@ -13,13 +13,13 @@ var angle: float
 
 signal cut_event(angle, originPoint)
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
 	rng.randomize()
-	$Sprite.modulate = Color(1,0,0)
 	$Timer.start(2)
 	
-# Called when the node enters the scene tree for the first time.
+
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
 	var player = get_node("/root/Screen/Player/KinematicBody2D")
@@ -27,6 +27,7 @@ func _physics_process(delta):
 		var my_position = global_position
 		var player_position = player.global_position
 		var norm_velocity = my_position.direction_to(player_position).normalized()
+		rotation =  my_position.angle_to(player_position) + 90
 		velocity = delta * speed * norm_velocity
 	move_and_slide(velocity)
 	
