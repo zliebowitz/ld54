@@ -1,12 +1,17 @@
 extends KinematicBody2D
 
 onready var _animated_sprite = $AnimatedSprite
+onready var _player_kick = $PlayerKick
+onready var _timer= $CanKickAgainTimer
 
-export (int) var speed = 300
+export (int) var speed = 100
 
 var velocity = Vector2()
 var rotation_dir = 0
 var screen_size # Size of the game window.
+
+export var kick_power = 500
+
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -31,6 +36,16 @@ func get_input():
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
 		input_pressed = true
+		
+	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
+		print("kick")
+		_player_kick.rotation = velocity.angle()
+		# documentations uggests that the below may use lst fram's velocity
+		var bodies =  _player_kick.get_overlapping_bodies()
+		for body in bodies:
+			if body.find_parent("Enemy*") != null || body.find_parent("EnemyCutter*") != null:
+				body.move_and_collide((body.global_position - global_position).normalized() * kick_power)
+		_timer.start()
 	
 		
 	velocity = velocity.normalized() * speed
