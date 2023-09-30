@@ -4,11 +4,7 @@ export (int) var speed = 300
 
 var velocity = Vector2()
 var rotation_dir = 0
-var screen_size # Size of the game window.
 
-func _ready():
-	screen_size = get_viewport_rect().size
-	position = Vector2(512, 300)
 func get_input():
 	velocity = Vector2()
 	var input_pressed = false
@@ -40,6 +36,3 @@ func _physics_process(delta):
 	get_input()
 	velocity = move_and_slide(velocity)
 	rotation = rotation_dir
-	
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)

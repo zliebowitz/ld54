@@ -20,11 +20,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+# Signal called when exiting the playing area
+func _on_Screen_Area_exited(body_rid, body, body_shape_index, local_shape_index):
+	print(\"You just died!\")
 "
 
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="Player" type="Node2D"]
+position = Vector2( 478, 278 )
 script = SubResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
