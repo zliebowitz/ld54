@@ -43,7 +43,7 @@ func get_input():
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
-			if body.find_parent("Enemy*") != null || body.find_parent("EnemyCutter*") != null:
+			if body.is_in_group("enemy"):
 				body.move_and_collide((body.global_position - global_position).normalized() * kick_power)
 		_timer.start()
 	

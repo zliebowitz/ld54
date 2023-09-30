@@ -14,6 +14,7 @@ var norm_velocity = Vector2.ZERO
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	add_to_group("enemy")
 	
 func _physics_process(delta):
 	velocity =  Vector2.ZERO

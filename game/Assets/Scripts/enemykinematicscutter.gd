@@ -24,6 +24,7 @@ func _ready():
 	rng.randomize()
 	$Timer.start(2)
 	animatedSprite.play("default")
+	add_to_group("enemy")
 	
 
 func _physics_process(delta):
