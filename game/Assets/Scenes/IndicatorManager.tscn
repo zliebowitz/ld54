@@ -3,5 +3,4 @@
 [ext_resource path="res://Assets/Scripts/IndicatorArrow.gd" type="Script" id=2]
 
 [node name="IndicatorManager" type="Node2D"]
-position = Vector2( 385, 95 )
 script = ExtResource( 2 )
