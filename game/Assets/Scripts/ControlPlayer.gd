@@ -17,6 +17,7 @@ var heavy_kick_vector = Vector2.ZERO
 var rotation_dir = 0
 var screen_size # Size of the game window.
 var heavy_kick = -1
+var kick_right_animation = true
 
 var mouse_direction_has_priority = true
 
@@ -52,6 +53,12 @@ func get_input(delta):
 	
 	# Handle kick input
 	if Input.is_action_pressed("attack") && _timer.is_stopped():
+		if kick_right_animation:
+			_kick_sprite.scale.y = -1
+			kick_right_animation = false
+		else:
+			_kick_sprite.scale.y = 1
+			kick_right_animation = true
 		_kick_sprite.visible = true
 		_kick_sprite.frame = 0
 		_timer.start()
