@@ -59,8 +59,8 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	rotation = rotation_dir
 	
-	global_position.x = clamp(global_position.x, 0, screen_size.x)
-	global_position.y = clamp(global_position.y, 0, screen_size.y)
+	#global_position.x = clamp(global_position.x, 0, screen_size.x)
+	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 func _process(delta):
 	if velocity == Vector2.ZERO:
