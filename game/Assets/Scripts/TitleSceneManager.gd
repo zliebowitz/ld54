@@ -19,3 +19,7 @@ func _process(delta):
 	if(!audio_stream.playing): # end of stream going to next scene
 		get_tree().change_scene_to(next_scene)
 		
+
+
+func _on_start_button_pressed():
+	get_tree().change_scene_to(next_scene)
