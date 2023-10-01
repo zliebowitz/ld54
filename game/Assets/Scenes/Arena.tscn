@@ -30,10 +30,10 @@ polygon = PoolVector2Array( 5, 5, 635, 5, 635, 347, 5, 347 )
 [node name="Item" parent="." instance=ExtResource( 7 )]
 position = Vector2( 540, 147 )
 
-[connection signal="fillwalls" from="Arena_Anchor/Area2D/ScreenPolygon" to="." method="_on_fillwalls"]
 [node name="IndicatorManager" parent="." instance=ExtResource( 4 )]
 player_node = NodePath("../Player/PlayerBody")
 
+[connection signal="fillwalls" from="Arena_Anchor/Area2D/ScreenPolygon" to="." method="_on_fillwalls"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [editable path="Player"]

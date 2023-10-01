@@ -9,6 +9,7 @@ var item01        =  load("res://Assets/Scenes/Item.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
 var tearerRatio = 1
 var framelock = false
+var items = 0;
 
 signal wallnudge(direction)
 
@@ -36,19 +37,13 @@ func _spawn_enemies(point: Vector2):
 	enemy.add_to_group("enemies")
 
 func _spawn_item(point: Vector2):
-	var count = 0
-	for child in self.get_children():
-		if "Item" in child.name:
-			if child.pickedUp:
-				remove_child(child)
-			else:
-				count+=1
-	if(count > 2):
+	if(items > 2):
 		return
 	var item
 	item = item01.instance()
 	add_child(item)
 	item.position = point
+	item.connect("item_pickedup", self, "on_item_pickup")
 	
 
 func _find_point():
@@ -75,7 +70,9 @@ func _on_Timer_timeout():
 	
 	var randomPointItem = _find_point()
 	_spawn_item(randomPointItem)
-
+	
+func on_item_pickup():
+	items += 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

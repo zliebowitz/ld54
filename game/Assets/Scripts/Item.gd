@@ -1,6 +1,6 @@
 extends Node2D
 
-var pickedUp = false
+signal picked_up
 
 func _ready():
 	add_to_group("collectibles")
@@ -8,7 +8,7 @@ func _ready():
 	#print("Area2D _ready", $Area2D/CollisionShape2D.shape.get_extents())
 
 func _on_Area2D_body_entered(body):
-	print("Item _on_Area2D_body_entered ", body.name)
 	if body.name == "PlayerBody":
 		hide()
-		pickedUp = true
+		emit_signal("picked_up")
+		queue_free()
