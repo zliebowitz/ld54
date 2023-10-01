@@ -1,7 +1,7 @@
 extends Area2D
 
 
-signal wall_impact(body, a, b)
+#signal wall_impact(body, a, b)
 
 
 # Called when the node enters the scene tree for the first time.

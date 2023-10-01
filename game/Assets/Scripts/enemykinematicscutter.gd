@@ -19,6 +19,7 @@ var angle: float
 var animationTimer = -1
 var frametime = 0
 var flyingTime = 0
+var objective_point
 
 
 const max_speed = 8
@@ -34,17 +35,15 @@ signal wall_impact(wall, body, hit_speed)
 func _ready():
 	screen_size = get_viewport_rect().size
 	rng.randomize()
-	$Timer.start(2)
 	animatedSprite.play("default")
 	add_to_group("enemy")
 	self.connect("hit_player", player, "_on_hit_player")
 	
 
 func _physics_process(delta):
-	if player && !charging:
-		var my_position = global_position
-		var player_position = player.global_position
-		var norm_velocity = my_position.direction_to(player_position).normalized()
+	var my_position = get_node("../../Arena_Anchor").to_local(position)
+	if !charging:
+		var norm_velocity = my_position.direction_to(objective_point).normalized()
 		rotation =  norm_velocity.angle() + PI/2
 		
 		velocity += norm_velocity * accel * delta
@@ -71,6 +70,9 @@ func _physics_process(delta):
 
 	move_and_slide(velocity)
 	
+	if my_position.distance_to(objective_point) < 5:
+		_on_reaching_objective()
+	
 	#global_position.x = clamp(global_position.x, 0, screen_size.x)
 	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
@@ -88,18 +90,18 @@ func _process(delta):
 			frontParticles.emitting = true
 			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -500
 
+func _on_reaching_objective():
+	animatedSprite.play("attack")
+	charging = true
+	#rotation = -(angle + PI/2)
+	$Timer.start(3)
+	animationTimer = 0
+	#if player && ($BackParticles.overlaps_body(player) || $FrontParticles.overlaps_body(player)):
+	emit_signal("hit_player")
+	return
+
 
 func _on_Timer_timeout():
-	if !charging:
-		animatedSprite.play("attack")
-		charging = true
-		angle = rng.randf_range(0, PI)
-		#rotation = -(angle + PI/2)
-		$Timer.start(3)
-		animationTimer = 0
-		#if player && ($BackParticles.overlaps_body(player) || $FrontParticles.overlaps_body(player)):
-		emit_signal("hit_player")
-		return
 	emit_signal("cut_event", angle, position)
 	get_parent().queue_free()
 

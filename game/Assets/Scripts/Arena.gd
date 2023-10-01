@@ -7,9 +7,10 @@ var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var item01        =  load("res://Assets/Scenes/Item.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
-var tearerRatio = 0.3
+var tearerRatio = 1
 var framelock = false
 var items = 0;
+var pointangle
 
 signal wallnudge(direction)
 
@@ -18,16 +19,21 @@ func _ready():
 	rng.randomize()
 	#$EnemyCutter/KinematicBody2D.connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 	arena = $"Arena_Anchor/Area2D/ScreenPolygon"
+	$Timer.start(1)
 	_on_fillwalls(arena.polygon)
-	$Timer.start(3)
 	
 func _spawn_enemies(point: Vector2):
 	var enemy
 	#Determines if it is a Tearer or a Pusher
 	if (rng.randf() < tearerRatio):
 		enemy = enemyTearer.instance()
+		var enemybody = enemy.get_node("KinematicBody2D")
 		add_child(enemy)
-		enemy.get_node("KinematicBody2D").connect("cut_event", $Arena_Anchor/Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
+		enemybody.connect("cut_event", $Arena_Anchor/Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
+		#enemybody.angle = rng.randf_range(0, PI)
+		enemybody.angle = pointangle
+		enemybody.objective_point = _find_point()
+		print(enemybody.objective_point)
 	else: 
 		enemy = enemyPusher.instance()
 		add_child(enemy)
@@ -46,20 +52,28 @@ func _spawn_item(point: Vector2):
 	
 
 func _find_point():
+	var a2
+	var b2
 	var tempArena = arena.duplicate()
-	var rNum = rng.randi_range(0, tempArena.polygon.size()-2)
-	var a1 = tempArena.polygon[rNum]
-	var a2 = tempArena.polygon[rNum+1]
-	tempArena.polygon.remove(rNum)
-	rNum = rng.randi_range(0, tempArena.polygon.size()-2)
-	var b1 = tempArena.polygon[rNum]
-	var b2 = tempArena.polygon[rNum+1]
+	var rNum1 = rng.randi_range(0, tempArena.polygon.size()-1)
+	var a1 = tempArena.polygon[rNum1]
+	if rNum1 == tempArena.polygon.size()-1: a2 = tempArena.polygon[0]
+	else: a2 = tempArena.polygon[rNum1+1]
+	
+	var rNum2 = rng.randi_range(1, tempArena.polygon.size()-1)
+	var b1 = tempArena.polygon[(rNum1 + rNum2) % tempArena.polygon.size()]
+	b2 = tempArena.polygon[(rNum1 + rNum2 + 1) % tempArena.polygon.size()]
 	var randA = rng.randf_range(0, 1)
 	var randB = rng.randf_range(0, 1)
 	var randC = rng.randf_range(0, 1)
 
 	var p1 = a1 + ((a2 - a1) * randA)
 	var p2 = b1 + ((b2 - b1) * randB)
+	
+	pointangle = p1.angle_to_point(p2)
+	if pointangle < 0: pointangle += PI
+	if (p1 + ((p2 - p1) * randC)).x == 956:
+		print(p1)
 	return p1 + ((p2 - p1) * randC)
 
 func _on_Timer_timeout():
