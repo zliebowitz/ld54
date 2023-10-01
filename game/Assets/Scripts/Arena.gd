@@ -31,6 +31,10 @@ func _spawn_enemies(point: Vector2):
 	#print(enemy.get_node("KinematicBody2D"))
 	enemy.add_to_group("enemies")
 	
+	#enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
+	#print(enemy.get_node("KinematicBody2D"))
+	enemy.add_to_group("enemies")
+
 func _spawn_item(point: Vector2):
 	var count = 0
 	for child in self.get_children():
@@ -44,7 +48,6 @@ func _spawn_item(point: Vector2):
 	var item
 	item = item01.instance()
 	add_child(item)
-			
 	item.get_node("ItemBody").position = point
 	
 
