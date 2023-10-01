@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Assets/Graphics/triangle.png" type="Texture" id=1]
+[ext_resource path="res://Assets/UI/Scripts/kickableButton.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.458101, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 27.0185
+
+[sub_resource type="RectangleShape2D" id=4]
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 21.0
+
+[node name="KickableButton" type="Node2D"]
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+shape = SubResource( 1 )
+
+[node name="LowerParticles" type="CPUParticles2D" parent="KinematicBody2D"]
+amount = 6
+emission_shape = 1
+emission_sphere_radius = 15.0
+gravity = Vector2( 0, 0 )
+orbit_velocity = 0.5
+scale_amount = 10.0
+scale_amount_random = 0.3
+color = Color( 0.156863, 0.752941, 0.454902, 1 )
+color_ramp = SubResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
+frames = SubResource( 2 )
+
+[node name="UpperParticles" type="CPUParticles2D" parent="KinematicBody2D"]
+emission_shape = 1
+emission_sphere_radius = 20.0
+gravity = Vector2( 0, 0 )
+orbit_velocity = 0.5
+scale_amount = 6.0
+scale_amount_random = 0.2
+color = Color( 0.156863, 0.752941, 0.454902, 1 )
+color_ramp = SubResource( 5 )
+
+[node name="CloseRange" type="Area2D" parent="KinematicBody2D"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D/CloseRange"]
+shape = SubResource( 3 )
+
+[node name="Punch" type="Area2D" parent="KinematicBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D/Punch"]
+position = Vector2( 0, -28 )
+shape = SubResource( 4 )
+
+[node name="Polygon2D" type="Polygon2D" parent="KinematicBody2D/Punch"]
+position = Vector2( 0, -28 )
+polygon = PoolVector2Array( -10, -10, 10, -10, 10, 10, -10, 10 )
+
+[node name="Timer" type="Timer" parent="KinematicBody2D"]
+
+[node name="WallRange" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRange"]
+visible = false
+shape = SubResource( 6 )
+
+[connection signal="body_shape_entered" from="KinematicBody2D/CloseRange" to="KinematicBody2D" method="_on_CloseRange_body_shape_entered"]
+[connection signal="timeout" from="KinematicBody2D/Timer" to="KinematicBody2D" method="_on_Timer_timeout"]
