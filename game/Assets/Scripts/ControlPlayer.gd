@@ -66,7 +66,7 @@ func _physics_process(delta):
 	get_input(delta)
 
 	#Process regular kick.
-	if !_timer.is_stopped():
+	if !_timer.is_stopped() && _timer.time_left < .25:
 		var kicked_enemy = false
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
