@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Scripts/ScreenArea.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Scripts/ScreenPolygon.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Scenes/Josh.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/UI/Widgets/UI_KickableButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Scenes/EnemyTearer.tscn" type="PackedScene" id=5]
 
 [node name="Node2D" type="Node2D"]
 
@@ -26,7 +27,10 @@ polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
 [node name="PlayerBody" parent="Player" index="0"]
 position = Vector2( 470, 281 )
 
-[node name="Enemy" parent="." instance=ExtResource( 4 )]
-position = Vector2( 242, 146 )
+[node name="KickableButton" parent="." instance=ExtResource( 4 )]
+position = Vector2( 346, 235 )
+
+[node name="EnemyCutter" parent="." instance=ExtResource( 5 )]
+position = Vector2( 442, 157 )
 
 [editable path="Player"]
