@@ -17,6 +17,12 @@ var angle: float
 var animationTimer = -1
 var frametime = 0
 
+
+const max_speed = 8
+const accel = 2000
+const friction = 80
+
+
 signal cut_event(angle, originPoint)
 
 # Called when the node enters the scene tree for the first time.
@@ -29,14 +35,23 @@ func _ready():
 	
 
 func _physics_process(delta):
-	velocity =  Vector2.ZERO
 	if frametime < 10: frametime += 1
 	if player && !charging:
 		var my_position = global_position
 		var player_position = player.global_position
 		var norm_velocity = my_position.direction_to(player_position).normalized()
 		rotation =  norm_velocity.angle() + PI/2
-		velocity = delta * speed * norm_velocity
+		
+		velocity += norm_velocity * accel * delta
+	
+	
+	if velocity.length() > max_speed:
+		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
+	elif velocity.length() > (friction * delta):
+		velocity -= velocity.normalized() * ((friction) * delta)
+	else:
+		velocity = Vector2.ZERO	
+	
 	move_and_slide(velocity)
 	
 	#global_position.x = clamp(global_position.x, 0, screen_size.x)
