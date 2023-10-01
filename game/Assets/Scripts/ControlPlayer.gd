@@ -22,7 +22,7 @@ var mouse_direction_has_priority = true
 const max_speed = 12
 const accel = 2000
 const friction = 80
-const heavy_kick_power = 6000
+const heavy_kick_power = 1200
 const heavy_kick_speed = 1000
 const heavy_kick_winddown = .2
 const heavy_kick_winddown_friction = friction * 75
@@ -89,7 +89,9 @@ func _physics_process(delta):
 			if body.is_in_group("enemy"):
 				kicked_enemy = true
 				body.velocity += heavy_kick_vector * heavy_kick_power
+				body.heavy_kicked = true
 				body.flyingTime = collision_frames
+				body.collision.disabled = true
 		if kicked_enemy:
 			velocity *= -1
 			heavy_kick = heavy_kick_winddown * -1

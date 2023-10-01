@@ -9,6 +9,7 @@ onready var player = get_node("../../Player/PlayerBody")
 onready var animatedSprite = $AnimatedSprite
 onready var backParticles = $BackParticles
 onready var frontParticles = $FrontParticles
+onready var collision = $CollisionShape2D
 onready var raycast = get_node("WallRayCast")
 
 var velocity = Vector2.ZERO
@@ -20,6 +21,7 @@ var animationTimer = -1
 var frametime = 0
 var flyingTime = 0
 var objective_point
+var heavy_kicked = false
 
 
 const max_speed = 8
@@ -42,22 +44,27 @@ func _ready():
 
 func _physics_process(delta):
 	var my_position = get_node("../../Arena_Anchor").to_local(position)
-	if !charging:
-		var norm_velocity = my_position.direction_to(objective_point).normalized()
-		rotation =  norm_velocity.angle() + PI/2
+	# If the enemy has not been heavy kicked, act normally.
+	if !heavy_kicked:
+		if !charging:
+			var norm_velocity = my_position.direction_to(objective_point).normalized()
+			rotation =  norm_velocity.angle() + PI/2
+			
+			velocity += norm_velocity * accel * delta
 		
-		velocity += norm_velocity * accel * delta
-	
-	if charging:
-		rotation = lerp_angle(rotation, -(angle + PI/2), .3)
-	
-	if velocity.length() > max_speed:
-		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
-	elif velocity.length() > (friction * delta):
-		velocity -= velocity.normalized() * ((friction) * delta)
+		if charging:
+			rotation = lerp_angle(rotation, -(angle + PI/2), .3)
+		
+		if velocity.length() > max_speed:
+			velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
+		elif velocity.length() > (friction * delta):
+			velocity -= velocity.normalized() * ((friction) * delta)
+		else:
+			velocity = Vector2.ZERO
+	# If the enemy has been heavy kicked, flies towards wall.
 	else:
-		velocity = Vector2.ZERO	
-	
+		pass
+		
 	if flyingTime > 0:
 		$WallRayCast.cast_to = (velocity * delta * 2).rotated(-rotation)
 		raycast.force_raycast_update()
@@ -65,6 +72,11 @@ func _physics_process(delta):
 		if raycast.is_colliding():
 			var impactedwall = raycast.get_collider()
 			emit_signal("wall_impact", impactedwall, get_parent(), raycast.cast_to.length())
+			var scene = load("res://Assets/Scenes/EnemyKilled.tscn")
+			var screen_tear = scene.instance()
+			screen_tear.global_position = global_position
+			screen_tear.rotation = $WallRayCast.get_collision_normal().angle()
+			get_parent().get_parent().add_child(screen_tear)
 			
 	else: raycast.cast_to = Vector2.ZERO
 
@@ -103,6 +115,13 @@ func _on_reaching_objective():
 
 func _on_Timer_timeout():
 	emit_signal("cut_event", angle, position)
+	
+	var scene = load("res://Assets/Scenes/ScreenTear.tscn")
+	var screen_tear = scene.instance()
+	screen_tear.global_position = global_position
+	screen_tear.rotation = rotation
+	get_parent().get_parent().add_child(screen_tear)
+	
 	get_parent().queue_free()
 
 
