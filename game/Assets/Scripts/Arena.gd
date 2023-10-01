@@ -7,7 +7,7 @@ var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var item01        =  load("res://Assets/Scenes/Item.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
-var tearerRatio = 1
+var tearerRatio = .3
 var framelock = false
 var items = 0;
 var pointangle
@@ -33,7 +33,7 @@ func _spawn_enemies(point: Vector2):
 		#enemybody.angle = rng.randf_range(0, PI)
 		enemybody.angle = pointangle
 		enemybody.objective_point = _find_point()
-		print(enemybody.objective_point)
+		#print(enemybody.objective_point)
 	else: 
 		enemy = enemyPusher.instance()
 		add_child(enemy)

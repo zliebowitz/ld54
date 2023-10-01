@@ -1,17 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Scripts/WallRayCast.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Scripts/enemykinematicscutter.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Graphics/Enemies/Tearer/TearerFrames.tres" type="SpriteFrames" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 15, 15 )
+extents = Vector2( 22.5, 22.5 )
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.92549, 0.92549, 0.92549, 1, 1, 1, 1, 1 )
-
-[sub_resource type="CircleShape2D" id=3]
-radius = 26.0192
 
 [node name="EnemyCutter" type="Node2D"]
 
@@ -21,13 +18,13 @@ collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-position = Vector2( 0, 3 )
+position = Vector2( 0.5, 3.5 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = ExtResource( 3 )
 animation = "attack"
-frame = 4
+frame = 2
 playing = true
 
 [node name="Timer" type="Timer" parent="KinematicBody2D"]
@@ -71,13 +68,5 @@ collision_mask = 8
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource( 1 )
-
-[node name="WallRange" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRange"]
-visible = false
-position = Vector2( 0, 6 )
-shape = SubResource( 3 )
 
 [connection signal="timeout" from="KinematicBody2D/Timer" to="KinematicBody2D" method="_on_Timer_timeout"]

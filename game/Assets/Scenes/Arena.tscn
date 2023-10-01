@@ -27,6 +27,9 @@ polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
 [node name="PlayerBody" parent="Player" index="0"]
 position = Vector2( 470, 281 )
 
+[node name="KickAnimation" parent="Player/PlayerBody" index="0"]
+frame = 4
+
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Item" parent="." instance=ExtResource( 7 )]
