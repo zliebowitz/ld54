@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var _animated_sprite = $AnimatedSprite
+onready var _kick_sprite = $KickAnimation
 onready var _player_kick = $PlayerKick
 onready var _player_heavy_kick = $PlayerHeavyKick
 onready var _timer= $CanKickAgainTimer
@@ -50,26 +51,10 @@ func get_input(delta):
 	
 	
 	# Handle kick input
-	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
-		#print("kick")
-		var kicked_enemy = false
-		# documentations uggests that the below may use lst fram's velocity
-		var bodies =  _player_kick.get_overlapping_bodies()
-		for body in bodies:
-			if body.is_in_group("enemy") || body.is_in_group("KickableButton"):
-				kicked_enemy = true
-				var kick_direction = global_position.direction_to(get_global_mouse_position())
-				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
-				var fling_vector = (kick_direction + enemy_direction).normalized()
-				var angle_between = abs(kick_direction.angle_to(enemy_direction))
-				var angular_ratio = pow(1 - (angle_between / (2*PI)),4)
-				if (angle_between > PI/2):
-					angular_ratio = 0
-				body.velocity += fling_vector * kick_power * angular_ratio
-				body.flyingTime = collision_frames
+	if Input.is_action_pressed("attack") && _timer.is_stopped():
+		_kick_sprite.visible = true
+		_kick_sprite.frame = 0
 		_timer.start()
-		if kicked_enemy:
-			velocity += global_position.direction_to(get_global_mouse_position()) * -200
 	
 	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
 		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
@@ -80,10 +65,31 @@ func get_input(delta):
 func _physics_process(delta):
 	get_input(delta)
 
-	if heavy_kick >= heavy_kick_winddown * -1:
-		#print("kick")
+	#Process regular kick.
+	if !_timer.is_stopped():
 		var kicked_enemy = false
 		# documentations uggests that the below may use lst fram's velocity
+		var bodies =  _player_kick.get_overlapping_bodies()
+		for body in bodies:
+			if (body.is_in_group("enemy") && body.flyingTime <= 0) || body.is_in_group("KickableButton"):
+				kicked_enemy = true
+				var kick_direction = global_position.direction_to(get_global_mouse_position())
+				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
+				var fling_vector = (kick_direction + enemy_direction).normalized()
+				var angle_between = abs(kick_direction.angle_to(enemy_direction))
+				var angular_ratio = pow(1 - (angle_between / (2*PI)),4)
+				if (angle_between > PI/2):
+					angular_ratio = 0
+				body.velocity += fling_vector * kick_power * angular_ratio
+				body.flyingTime = collision_frames
+		if kicked_enemy:
+			velocity += global_position.direction_to(get_global_mouse_position()) * -200
+
+
+
+	# Process heavy kick.
+	if heavy_kick >= heavy_kick_winddown * -1:
+		var kicked_enemy = false
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
 			if body.is_in_group("enemy"):
@@ -129,6 +135,12 @@ func _process(delta):
 	else:
 		if(aim_vector != Vector2.ZERO):
 			rotation_dir = aim_vector.angle() 
+	
+	# Remove kicking sprite if not kicking.
+	if _timer.is_stopped():
+		_kick_sprite.visible = false
+		
+	
 	if !_timer.is_stopped():
 		_animated_sprite.play("kick")
 	elif velocity == Vector2.ZERO:

@@ -1,12 +1,27 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Graphics/Player/PlayerAnimations.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0006.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Scripts/ControlPlayer.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0003.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0001.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0005.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0004.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Graphics/PlayerAttack/Sprite-0002.png" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 1.10454
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 1.4
+height = 0.799997
 
 [sub_resource type="CapsuleShape2D" id=3]
 height = 32.0
@@ -16,6 +31,13 @@ height = 32.0
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
 position = Vector2( 325, 200 )
 script = ExtResource( 3 )
+
+[node name="KickAnimation" type="AnimatedSprite" parent="PlayerBody"]
+visible = false
+position = Vector2( 17, -1 )
+frames = SubResource( 4 )
+frame = 3
+playing = true
 
 [node name="Sprite" type="Sprite" parent="PlayerBody"]
 
@@ -33,8 +55,9 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody/PlayerKick"]
-position = Vector2( 0.450001, 0 )
-shape = SubResource( 2 )
+position = Vector2( 0.599998, 0 )
+rotation = 1.5708
+shape = SubResource( 5 )
 
 [node name="CanKickAgainTimer" type="Timer" parent="PlayerBody"]
 wait_time = 0.3
