@@ -9,21 +9,23 @@ export var kick_power = 2000
 export var collision_frames = 1000 	#Number of frames that a kicked enemy can impact a wall
 
 var input_vector = Vector2.ZERO
+var aim_vector = Vector2.ZERO
 var velocity = Vector2()
 var rotation_dir = 0
 var screen_size # Size of the game window.
 
-
+var mouse_direction_has_priority = true
 
 const max_speed = 12
 const accel = 2000
 const friction = 80
 
-
-
 func _ready():
 	screen_size = get_viewport_rect().size
-	
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		mouse_direction_has_priority = true
 	
 func get_input():
 	
@@ -31,6 +33,14 @@ func get_input():
 	input_vector.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	input_vector.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	input_vector = input_vector.normalized()
+	
+
+	aim_vector.x = int(Input.is_action_pressed("aim_right")) - int(Input.is_action_pressed("aim_left"))
+	aim_vector.y = int(Input.is_action_pressed("aim_down")) - int(Input.is_action_pressed("aim_up"))
+	aim_vector = aim_vector.normalized()
+	if(aim_vector != Vector2.ZERO):
+		mouse_direction_has_priority = false
+	
 	
 	# Handle kick input
 	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
@@ -59,13 +69,9 @@ func get_input():
 func _physics_process(delta):
 	get_input()
 	rotation = rotation_dir
-	
-	
-	
-	
+
 	velocity += input_vector * accel * delta
-	
-	
+		
 	if velocity.length() > max_speed:
 		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
 	elif velocity.length() > (friction * delta):
@@ -73,24 +79,22 @@ func _physics_process(delta):
 	else:
 		velocity = Vector2.ZERO
 	
-	
 	move_and_slide(velocity)
-	
-	
 	
 	#global_position.x = clamp(global_position.x, 0, screen_size.x)
 	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 func _process(delta):
-	
-
-	if !_timer.is_stopped():
+	if(mouse_direction_has_priority):
 		rotation_dir = global_position.angle_to_point(get_global_mouse_position()) + PI
+	else:
+		if(aim_vector != Vector2.ZERO):
+			rotation_dir = aim_vector.angle() 
+	if !_timer.is_stopped():
 		_animated_sprite.play("kick")
 	elif velocity == Vector2.ZERO:
-		 _animated_sprite.play("idle")
+		_animated_sprite.play("idle")
 	else:
-		rotation_dir = velocity.angle()
 		_animated_sprite.play("walk")
 
 func _on_hit_player():
