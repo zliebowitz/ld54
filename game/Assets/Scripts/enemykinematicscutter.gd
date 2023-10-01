@@ -25,6 +25,7 @@ const friction = 80
 
 
 signal cut_event(angle, originPoint)
+signal hit_player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +34,7 @@ func _ready():
 	$Timer.start(2)
 	animatedSprite.play("default")
 	add_to_group("enemy")
+	self.connect("hit_player", player, "_on_hit_player")
 	
 
 func _physics_process(delta):
@@ -80,6 +82,8 @@ func _on_Timer_timeout():
 		rotation = -(angle + PI/2)
 		$Timer.start(3)
 		animationTimer = 0
+		#if player && ($BackParticles.overlaps_body(player) || $FrontParticles.overlaps_body(player)):
+		emit_signal("hit_player")
 		return
 		
 	#print("Cut you!")

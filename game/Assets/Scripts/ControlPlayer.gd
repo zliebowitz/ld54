@@ -23,7 +23,7 @@ const friction = 80
 
 func _ready():
 	screen_size = get_viewport_rect().size
-
+	
 	
 func get_input():
 	
@@ -92,3 +92,6 @@ func _process(delta):
 	else:
 		rotation_dir = velocity.angle()
 		_animated_sprite.play("walk")
+
+func _on_hit_player():
+	pass
