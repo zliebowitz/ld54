@@ -1,6 +1,7 @@
 extends Node2D
 
 export(NodePath) onready var player_node = get_node(player_node) as Node
+export var tracking_group = "collectibles"
 export var draw_sprite_indicator = true
 export var draw_line = true
 export var line_width = 1
@@ -54,7 +55,7 @@ func _process(delta):
 	
 	item_positions.clear()
 	indicator_locations.clear()
-	var array_of_nodes = get_tree().get_nodes_in_group ( "collectibles" )
+	var array_of_nodes = get_tree().get_nodes_in_group ( tracking_group )
 	for _item in array_of_nodes:
 		if(!is_position_in_viewport(_item.global_position)):
 			item_positions.append(_item.global_position)
