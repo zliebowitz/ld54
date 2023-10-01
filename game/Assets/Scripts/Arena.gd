@@ -48,7 +48,7 @@ func _spawn_item(point: Vector2):
 	item = item01.instance()
 	add_child(item)
 	item.position = point
-	item.connect("item_pickedup", self, "on_item_pickup")
+	item.connect("picked_up", self, "on_item_pickup")
 	
 
 func _find_point():
