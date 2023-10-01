@@ -1,5 +1,6 @@
 extends Node2D
 
+export(NodePath) onready var player_node = get_node(player_node) as Node
 export var draw_sprite_indicator = true
 export var draw_line = true
 export var line_width = 1
@@ -18,8 +19,6 @@ func _set_sprite_indicator(value):
 	sprite_indicator = value #texture was changed
 	update() # update the node
 
-
-onready var _arrow = $Arrow
 
 var player_position = Vector2(0,0)
 var item_positions = []
@@ -47,11 +46,11 @@ func _draw():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var player = get_node("/root/Arena/Player/PlayerBody")
-	if !player:
+	
+	if !player_node:
 		return
 		
-	player_position = player.global_position
+	player_position = player_node.global_position
 	
 	item_positions.clear()
 	indicator_locations.clear()
