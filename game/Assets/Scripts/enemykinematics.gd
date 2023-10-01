@@ -14,10 +14,12 @@ var norm_velocity = Vector2.ZERO
 var frametime = 0
 var flyingTime = 0
 
+signal hit_player
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	add_to_group("enemy")
+	self.connect("hit_player", player, "_on_hit_player")
 	
 func _physics_process(delta):
 	velocity =  Vector2.ZERO
@@ -54,4 +56,5 @@ func _on_Timer_timeout():
 		norm_velocity = global_position.direction_to(player.global_position).normalized()
 		#print("roblox.oof")
 		player.move_and_collide(norm_velocity * punch_force)
+		emit_signal("hit_player")
 	preparing = false
