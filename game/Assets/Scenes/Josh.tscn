@@ -28,7 +28,7 @@ animation = "idle"
 playing = true
 
 [node name="PlayerKick" type="Area2D" parent="PlayerBody"]
-scale = Vector2( 500, 500 )
+scale = Vector2( 20, 20 )
 collision_layer = 3
 collision_mask = 3
 

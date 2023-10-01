@@ -10,7 +10,7 @@ var velocity = Vector2()
 var rotation_dir = 0
 var screen_size # Size of the game window.
 
-export var kick_power = 500
+export var kick_power = 90
 
 
 func _ready():
