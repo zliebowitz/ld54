@@ -44,7 +44,7 @@ func _spawn_item(point: Vector2):
 	var item
 	item = item01.instance()
 	add_child(item)
-	item.get_node("ItemBody").position = point
+	item.position = point
 	
 
 func _find_point():
