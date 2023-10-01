@@ -23,7 +23,6 @@ script = ExtResource( 1 )
 polygon = PoolVector2Array( 5, 5, 635, 5, 635, 347, 5, 347 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 325, 205 )
 
 [node name="Timer" type="Timer" parent="."]
 

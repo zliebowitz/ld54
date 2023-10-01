@@ -40,7 +40,7 @@ func _cut(angle: float, originPoint: Vector2):
 	#Check for which portion the player is in, and leave that one
 	print("Pos")
 	print(player.get_parent().position)
-	if player and Geometry.is_point_in_polygon(get_node("../../..").to_local(player.get_parent().position), finalPolygonLeft):
+	if player and Geometry.is_point_in_polygon(to_local(player.position), finalPolygonLeft):
 		polygon = finalPolygonLeft
 	else:
 		polygon = finalPolygonRight
