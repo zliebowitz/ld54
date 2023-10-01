@@ -1,6 +1,7 @@
 extends Node2D
 
 export(NodePath) onready var player_node = get_node(player_node) as Node
+export(NodePath) onready var camera2D = get_node(camera2D) as Camera2D
 export var tracking_group = "collectibles"
 export var draw_sprite_indicator = true
 export var draw_line = true
@@ -30,8 +31,23 @@ var indicator_locations = []
 func _ready():
 	pass # Replace with function body.
 
+func get_corrected_viewport_rect():
+	var center = camera2D.get_camera_screen_center()
+	
+	var vprect = camera2D.get_viewport_rect() 
+	vprect.end.x = vprect.end.x * camera2D.get_zoom().x
+	vprect.end.y = vprect.end.y * camera2D.get_zoom().y
+	
+	var rect : Rect2
+	rect.position.x = center.x - (vprect.size.x/2.0)
+	rect.end.x = center.x + (vprect.size.x/2.0)
+	rect.position.y = center.y - (vprect.size.y/2.0)
+	rect.end.y = center.y + (vprect.size.y/2.0)
+	
+	return rect
+
 func is_position_in_viewport(position: Vector2):
-	return get_viewport_rect().has_point(position);
+	return get_corrected_viewport_rect().has_point(position);
 	
 func _draw():
 	if(draw_sprite_indicator):
@@ -75,17 +91,17 @@ func _process(delta):
 			var p3 = Vector2(0,0)
 			var p4 = Vector2(0,0)
 			if(deltax >= 0):
-				p3.x = get_viewport_rect().end.x - viewport_offset
+				p3.x = get_corrected_viewport_rect().end.x - viewport_offset
 				p3.y = p3.x * slope + y_intercept
 			else:
-				p3.x = get_viewport_rect().position.x + viewport_offset
+				p3.x = get_corrected_viewport_rect().position.x + viewport_offset
 				p3.y = p3.x * slope + y_intercept
 			
 			if(deltay >= 0):
-				p4.y = get_viewport_rect().end.y - viewport_offset
+				p4.y = get_corrected_viewport_rect().end.y - viewport_offset
 				p4.x = (p4.y - y_intercept)/slope
 			else:
-				p4.y = get_viewport_rect().position.y + viewport_offset
+				p4.y = get_corrected_viewport_rect().position.y + viewport_offset
 				p4.x = (p4.y - y_intercept)/slope
 			
 			if(player_position.distance_to(p4) <= player_position.distance_to(p3)):
