@@ -34,10 +34,12 @@ func get_input():
 	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
 		print("kick")
 		_player_kick.rotation = global_position.angle_to_point(get_global_mouse_position())
+		var kicked_enemy = false
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
 			if body.is_in_group("enemy"):
+				kicked_enemy = true
 				var kick_direction = global_position.direction_to(get_global_mouse_position())
 				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
 				var fling_vector = (kick_direction + enemy_direction).normalized()
@@ -47,6 +49,8 @@ func get_input():
 					angular_ratio = 0
 				body.velocity += fling_vector * kick_power * angular_ratio
 		_timer.start()
+		if kicked_enemy:
+			velocity += global_position.direction_to(get_global_mouse_position()) * -200
 
 
 func _physics_process(delta):
