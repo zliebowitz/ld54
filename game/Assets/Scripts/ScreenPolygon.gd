@@ -38,7 +38,9 @@ func _cut(angle: float, originPoint: Vector2):
 	var finalPolygonRight = PoolVector2Array(Geometry.intersect_polygons_2d(cutPolygonRight, polygon)[0])
 	
 	#Check for which portion the player is in, and leave that one
-	if player && Geometry.is_point_in_polygon(get_node("..").to_local(player.position), finalPolygonLeft):
+	print("Pos")
+	print(player.get_parent().position)
+	if player and Geometry.is_point_in_polygon(get_node("../../..").to_local(player.get_parent().position), finalPolygonLeft):
 		polygon = finalPolygonLeft
 	else:
 		polygon = finalPolygonRight

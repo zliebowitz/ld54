@@ -50,7 +50,7 @@ func get_input():
 		
 	velocity = velocity.normalized() * speed
 	if input_pressed:
-		rotation_dir = velocity.angle() + PI/2
+		rotation_dir = velocity.angle()
 		
 	
 
