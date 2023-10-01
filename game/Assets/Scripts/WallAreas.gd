@@ -14,5 +14,5 @@ func _ready():
 #	pass
 
 
-func _on_WallAreas_body_entered(body):
-	emit_signal("wall_impact", body, $WallSegment.shape.a, $WallSegment.shape.b)
+#func _on_WallAreas_body_entered(body):
+	#emit_signal("wall_impact", body, $WallSegment.shape.a, $WallSegment.shape.b)

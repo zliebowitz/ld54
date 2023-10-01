@@ -7,7 +7,7 @@ onready var _timer= $CanKickAgainTimer
 
 export (int) var speed = 100
 export var kick_power = 2000
-export var collision_frames = 1000 	#Number of frames that a kicked enemy can impact a wall
+export var collision_frames = 60 	#Number of frames that a kicked enemy can impact a wall
 
 var input_vector = Vector2.ZERO
 var aim_vector = Vector2.ZERO

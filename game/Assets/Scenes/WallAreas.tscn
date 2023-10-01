@@ -4,8 +4,8 @@
 [ext_resource path="res://Assets/Scripts/WallAreas.gd" type="Script" id=2]
 
 [node name="WallAreas" type="Area2D"]
+collision_layer = 9
+collision_mask = 9
 script = ExtResource( 2 )
 
 [node name="WallSegment" parent="." instance=ExtResource( 1 )]
-
-[connection signal="body_entered" from="." to="." method="_on_WallAreas_body_entered"]

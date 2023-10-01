@@ -7,7 +7,7 @@ var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var item01        =  load("res://Assets/Scenes/Item.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
-var tearerRatio = 1
+var tearerRatio = 0.3
 var framelock = false
 var items = 0;
 
@@ -31,9 +31,8 @@ func _spawn_enemies(point: Vector2):
 	else: 
 		enemy = enemyPusher.instance()
 		add_child(enemy)
-	#enemy.get_node("KinematicBody2D").position = point
 	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
-	#print(enemy.get_node("KinematicBody2D"))
+	enemy.get_node("KinematicBody2D").connect("wall_impact", self, "_on_wall_impacted")
 	enemy.add_to_group("enemies")
 
 func _spawn_item(point: Vector2):
@@ -106,16 +105,14 @@ func _on_fillwalls(shape):
 			segment.shape.b = shape[0]
 		else: segment.shape.b = shape[i]
 		area.add_child(wallarea)
-		wallarea.connect("wall_impact", self, "_on_wall_impacted")
+		#wallarea.connect("wall_impact", self, "_on_wall_impacted")
 	#print(area.get_children())
 	
 func delete_children(node):
 	for n in node.get_children():
 		node.remove_child(n)
 
-func _on_wall_impacted(body, a, b):
-	#If an enemy hits a wall while they are being kicked
-	if (body.is_in_group("enemy")) && (body.flyingTime > 0):
-		var normal = a.angle_to_point(b) + PI/2
-		emit_signal("wallnudge", normal)
-		body.get_parent().queue_free()
+func _on_wall_impacted(hitwall, body, hitspeed):
+	var normal = hitwall.get_child(0).shape.a.angle_to_point(hitwall.get_child(0).shape.b) + PI/2
+	emit_signal("wallnudge", normal, hitspeed)
+	body.queue_free()

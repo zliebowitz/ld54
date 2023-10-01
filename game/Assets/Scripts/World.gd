@@ -44,6 +44,6 @@ func _physics_process(delta):
 #	pass
 
 
-func _on_Arena_wallnudge(direction):
+func _on_Arena_wallnudge(direction, hit_speed):
 	var right = Vector2.RIGHT
-	input_velocity = right.rotated(direction) * speed
+	input_velocity = right.rotated(direction) * speed * hit_speed

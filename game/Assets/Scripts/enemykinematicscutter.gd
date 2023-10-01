@@ -9,6 +9,8 @@ onready var player = get_node("../../Player/PlayerBody")
 onready var animatedSprite = $AnimatedSprite
 onready var backParticles = $BackParticles
 onready var frontParticles = $FrontParticles
+onready var raycast = get_node("WallRayCast")
+
 var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var charging = false
@@ -26,6 +28,7 @@ const friction = 80
 
 signal cut_event(angle, originPoint)
 signal hit_player
+signal wall_impact(wall, body, hit_speed)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -46,6 +49,8 @@ func _physics_process(delta):
 		
 		velocity += norm_velocity * accel * delta
 	
+	if charging:
+		rotation = lerp_angle(rotation, -(angle + PI/2), .3)
 	
 	if velocity.length() > max_speed:
 		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
@@ -54,6 +59,16 @@ func _physics_process(delta):
 	else:
 		velocity = Vector2.ZERO	
 	
+	if flyingTime > 0:
+		$WallRayCast.cast_to = (velocity * delta * 2).rotated(-rotation)
+		raycast.force_raycast_update()
+		#print(raycast.get_collider())
+		if raycast.is_colliding():
+			var impactedwall = raycast.get_collider()
+			emit_signal("wall_impact", impactedwall, get_parent(), raycast.cast_to.length())
+			
+	else: raycast.cast_to = Vector2.ZERO
+
 	move_and_slide(velocity)
 	
 	#global_position.x = clamp(global_position.x, 0, screen_size.x)
@@ -79,14 +94,12 @@ func _on_Timer_timeout():
 		animatedSprite.play("attack")
 		charging = true
 		angle = rng.randf_range(0, PI)
-		rotation = -(angle + PI/2)
+		#rotation = -(angle + PI/2)
 		$Timer.start(3)
 		animationTimer = 0
 		#if player && ($BackParticles.overlaps_body(player) || $FrontParticles.overlaps_body(player)):
 		emit_signal("hit_player")
 		return
-		
-	#print("Cut you!")
 	emit_signal("cut_event", angle, position)
 	get_parent().queue_free()
 
