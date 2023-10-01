@@ -18,5 +18,5 @@ spread = 7.02
 gravity = Vector2( 5000, 0 )
 initial_velocity = 300.0
 scale_amount = 7.0
-color = Color( 1, 0, 0, 1 )
+color = Color( 0.243137, 0.996078, 0.117647, 1 )
 color_ramp = SubResource( 1 )
