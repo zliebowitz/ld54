@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/UI/GameTheme.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/UI/Scripts/kickableButton.gd" type="Script" id=2]
 [ext_resource path="res://Assets/UI/Assets/Button_BG.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Scripts/WallRayCast.gd" type="Script" id=4]
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.458101, 1 )
@@ -62,3 +63,11 @@ text = "Kiok Me"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( 21, 7.5 )
 shape = SubResource( 1 )
+
+[node name="WallRayCast" type="RayCast2D" parent="KinematicBody2D"]
+position = Vector2( 24, 8 )
+cast_to = Vector2( 150, 0 )
+collision_mask = 8
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource( 4 )
