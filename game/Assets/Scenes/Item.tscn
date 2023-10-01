@@ -11,11 +11,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 17, 17 )
+[sub_resource type="CircleShape2D" id=3]
+radius = 23.0217
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23, 20.5 )
+[sub_resource type="CircleShape2D" id=4]
+radius = 23.1948
 
 [node name="Item" type="Node2D"]
 script = ExtResource( 2 )
@@ -26,12 +26,11 @@ script = ExtResource( 2 )
 frames = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0, -0.5 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
