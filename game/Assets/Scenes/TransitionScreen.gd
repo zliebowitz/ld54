@@ -1,4 +1,4 @@
-extends Area2D
+extends CanvasLayer
 
 
 # Declare member variables here. Examples:
@@ -8,10 +8,11 @@ extends Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$ScreenCollision.set_polygon($ScreenPolygon.polygon)
-	pass # Replace with function body.
+	transition() # Replace with function body.
 
-
+func transition():
+	$AnimationPlayer.play("fade_in")
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

@@ -15,13 +15,11 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _on_Area2D_body_entered(body):
-	print("Player _on_Area2D_body_entered", body.name)
-	if body.name != "KinematicBody2D":
+func _on_PickUpArea_body_entered(body):
+	#print("Player _on_PickUpArea_body_entered", body.name)
+	if body.name != "ItemBody":
 		return
 	playerObjects.append(body)
 	
 	if(playerObjects.size() > 3):
 		playerObjects.pop_back()
-	
-	

@@ -10,7 +10,7 @@ var velocity = Vector2()
 var rotation_dir = 0
 var screen_size # Size of the game window.
 
-export var kick_power = 500
+export var kick_power = 90
 
 
 func _ready():
@@ -43,14 +43,14 @@ func get_input():
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
-			if body.find_parent("Enemy*") != null || body.find_parent("EnemyCutter*") != null:
+			if body.is_in_group("enemy"):
 				body.move_and_collide((body.global_position - global_position).normalized() * kick_power)
 		_timer.start()
 	
 		
 	velocity = velocity.normalized() * speed
 	if input_pressed:
-		rotation_dir = velocity.angle() + PI/2
+		rotation_dir = velocity.angle()
 		
 	
 
@@ -59,8 +59,8 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	rotation = rotation_dir
 	
-	global_position.x = clamp(global_position.x, 0, screen_size.x)
-	global_position.y = clamp(global_position.y, 0, screen_size.y)
+	#global_position.x = clamp(global_position.x, 0, screen_size.x)
+	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 func _process(delta):
 	if velocity == Vector2.ZERO:

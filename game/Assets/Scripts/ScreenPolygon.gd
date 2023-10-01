@@ -5,6 +5,7 @@ var topRight = Vector2(1000, 0)
 var bottomRight = Vector2(1000,1000)
 var bottomLeft = Vector2(0, 1000)
 var DEBUG = false
+signal framelock(status)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,7 +18,9 @@ func _ready():
 
 # Cuts the screen polygon, based on an angle of cut and an origin point
 func _cut(angle: float, originPoint: Vector2):
-	var player = get_node("../../Player/PlayerBody")
+	emit_signal("framelock", true)
+	var player = get_node("../../../Player/PlayerBody")
+	originPoint = $"../..".to_local(originPoint)
 	if !Geometry.is_point_in_polygon(originPoint, polygon):
 		print("The point isn't in the arena!")
 		return
@@ -35,12 +38,14 @@ func _cut(angle: float, originPoint: Vector2):
 	var finalPolygonRight = PoolVector2Array(Geometry.intersect_polygons_2d(cutPolygonRight, polygon)[0])
 	
 	#Check for which portion the player is in, and leave that one
-	if player && Geometry.is_point_in_polygon(player.position, finalPolygonLeft):
+	print("Pos")
+	print(player.get_parent().position)
+	if player and Geometry.is_point_in_polygon(to_local(player.position), finalPolygonLeft):
 		polygon = finalPolygonLeft
 	else:
 		polygon = finalPolygonRight
-	print(Geometry.is_point_in_polygon(player.position, finalPolygonLeft))
-	get_node("../ScreenCollision").polygon = polygon
+	#print(Geometry.is_point_in_polygon(player.position, finalPolygonLeft))
+	get_node("../ScreenCollision").set_polygon(polygon)
 	#print(get_node("../ScreenCollision").polygon)
 
 func _on_EnemyCutter_cut_event(angle, origin):
