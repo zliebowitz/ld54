@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var _animated_sprite = $AnimatedSprite
 onready var _player_kick = $PlayerKick
+onready var _player_heavy_kick = $PlayerHeavyKick
 onready var _timer= $CanKickAgainTimer
 
 export (int) var speed = 100
@@ -10,14 +11,20 @@ export var collision_frames = 1000 	#Number of frames that a kicked enemy can im
 
 var input_vector = Vector2.ZERO
 var velocity = Vector2()
+var heavy_kick_vector = Vector2.ZERO
 var rotation_dir = 0
 var screen_size # Size of the game window.
+var heavy_kick = -1
 
 
 
 const max_speed = 12
 const accel = 2000
 const friction = 80
+const heavy_kick_power = 6000
+const heavy_kick_speed = 1000
+const heavy_kick_winddown = .2
+const heavy_kick_winddown_friction = friction * 75
 
 
 
@@ -25,7 +32,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 
 	
-func get_input():
+func get_input(delta):
 	
 	# Handle direcitonal inputs
 	input_vector.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
@@ -35,7 +42,6 @@ func get_input():
 	# Handle kick input
 	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
 		#print("kick")
-		_player_kick.rotation = global_position.angle_to_point(get_global_mouse_position())
 		var kicked_enemy = false
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
@@ -54,11 +60,31 @@ func get_input():
 		_timer.start()
 		if kicked_enemy:
 			velocity += global_position.direction_to(get_global_mouse_position()) * -200
+	
+	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
+		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
+		heavy_kick = .1 + delta
+		
 
 
 func _physics_process(delta):
-	get_input()
-	rotation = rotation_dir
+	get_input(delta)
+	
+	
+	
+	if heavy_kick >= heavy_kick_winddown * -1:
+		#print("kick")
+		var kicked_enemy = false
+		# documentations uggests that the below may use lst fram's velocity
+		var bodies =  _player_kick.get_overlapping_bodies()
+		for body in bodies:
+			if body.is_in_group("enemy"):
+				kicked_enemy = true
+				body.velocity += heavy_kick_vector * heavy_kick_power
+				body.flyingTime = collision_frames
+		if kicked_enemy:
+			velocity *= -1
+			heavy_kick = heavy_kick_winddown * -1
 	
 	
 	
@@ -66,14 +92,27 @@ func _physics_process(delta):
 	velocity += input_vector * accel * delta
 	
 	
-	if velocity.length() > max_speed:
+	if heavy_kick >= 0:
+		# TODO: Replace with joystick/mouse direction 
+		velocity = heavy_kick_vector * heavy_kick_speed
+		heavy_kick -= delta
+	elif heavy_kick < 0 && heavy_kick >= heavy_kick_winddown * -1:
+		if velocity.length() > (heavy_kick_winddown_friction * delta):
+			velocity -= velocity.normalized() * (heavy_kick_winddown_friction * delta)
+		else:
+			velocity = Vector2.ZERO
+			heavy_kick = heavy_kick_winddown * -1
+			
+		heavy_kick -= delta
+	elif velocity.length() > max_speed:
 		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
 	elif velocity.length() > (friction * delta):
 		velocity -= velocity.normalized() * ((friction) * delta)
 	else:
 		velocity = Vector2.ZERO
+
 	
-	
+	rotation = rotation_dir
 	move_and_slide(velocity)
 	
 	
