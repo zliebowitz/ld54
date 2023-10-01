@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/orb.png-43000caf2b235fc7bc3d462cee15fa8d.stex"
+path="res://.import/Button_BG.png-4dd0467cef800f27f087d7823fd8d730.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/orb.png"
-dest_files=[ "res://.import/orb.png-43000caf2b235fc7bc3d462cee15fa8d.stex" ]
+source_file="res://Assets/UI/Assets/Button_BG.png"
+dest_files=[ "res://.import/Button_BG.png-4dd0467cef800f27f087d7823fd8d730.stex" ]
 
 [params]
 

@@ -56,7 +56,7 @@ func get_input(delta):
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
-			if body.is_in_group("enemy"):
+			if body.is_in_group("enemy") || body.is_in_group("KickableButton"):
 				kicked_enemy = true
 				var kick_direction = global_position.direction_to(get_global_mouse_position())
 				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
