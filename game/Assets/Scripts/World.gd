@@ -2,11 +2,12 @@ extends Node2D
 
 
 onready var arena = get_node("Arena/Arena_Anchor")
-var speed = 300
-var friction = 0.2
-var viewfriction = 0.3
+var speed = 5000
+var friction = 0.1
+var viewfriction = 0.2
 var cameraspeed = 10
 var acceleration = 0.1
+var input_velocity = Vector2.ZERO
 var velocity = Vector2.ZERO
 var viewvelocity = Vector2.ZERO
 
@@ -16,7 +17,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _physics_process(delta):
-	var input_velocity = Vector2.ZERO
+
 	# Check input for "desired" velocity
 	if Input.is_action_pressed("screenright"):
 		input_velocity.x += 1
@@ -36,7 +37,13 @@ func _physics_process(delta):
 		# If there's no input, slow down to (0, 0)
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 		viewvelocity = viewvelocity.linear_interpolate(Vector2.ZERO, viewfriction)
+	input_velocity = Vector2.ZERO
 	velocity = arena.move_and_slide(velocity)
 	$View_Anchor.position = lerp($View_Anchor.position, $Arena/Arena_Anchor.position, cameraspeed * delta)
 	#viewvelocity = $View_Anchor.move_and_slide(viewvelocity)
 #	pass
+
+
+func _on_Arena_wallnudge(direction):
+	var right = Vector2.RIGHT
+	input_velocity = right.rotated(direction) * speed

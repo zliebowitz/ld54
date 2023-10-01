@@ -6,6 +6,7 @@ var bottomRight = Vector2(1000,1000)
 var bottomLeft = Vector2(0, 1000)
 var DEBUG = false
 signal framelock(status)
+signal fillwalls(shape)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,14 +39,13 @@ func _cut(angle: float, originPoint: Vector2):
 	var finalPolygonRight = PoolVector2Array(Geometry.intersect_polygons_2d(cutPolygonRight, polygon)[0])
 	
 	#Check for which portion the player is in, and leave that one
-	print("Pos")
-	print(player.get_parent().position)
 	if player and Geometry.is_point_in_polygon(to_local(player.position), finalPolygonLeft):
 		polygon = finalPolygonLeft
 	else:
 		polygon = finalPolygonRight
 	#print(Geometry.is_point_in_polygon(player.position, finalPolygonLeft))
 	get_node("../ScreenCollision").set_polygon(polygon)
+	emit_signal("fillwalls", polygon)
 	#print(get_node("../ScreenCollision").polygon)
 
 func _on_EnemyCutter_cut_event(angle, origin):

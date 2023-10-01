@@ -6,11 +6,13 @@ onready var _timer= $CanKickAgainTimer
 
 export (int) var speed = 100
 export var kick_power = 2000
+export var collision_frames = 1000 	#Number of frames that a kicked enemy can impact a wall
 
 var input_vector = Vector2.ZERO
 var velocity = Vector2()
 var rotation_dir = 0
 var screen_size # Size of the game window.
+
 
 
 const max_speed = 12
@@ -32,8 +34,10 @@ func get_input():
 	
 	# Handle kick input
 	if Input.is_action_just_pressed("attack") && _timer.is_stopped():
-		print("kick")
+		#print("kick")
 		_player_kick.rotation = global_position.angle_to_point(get_global_mouse_position())
+		#print("kick")
+		#_player_kick.rotation = velocity.angle()
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
 		for body in bodies:
@@ -46,6 +50,7 @@ func get_input():
 				if (angle_between > PI/2):
 					angular_ratio = 0
 				body.velocity += fling_vector * kick_power * angular_ratio
+				body.flyingTime = collision_frames
 		_timer.start()
 
 

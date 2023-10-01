@@ -6,14 +6,18 @@ var rng = RandomNumberGenerator.new()
 var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var item01        =  load("res://Assets/Scenes/Item.tscn")
+var wall		= load("res://Assets/Scenes/WallAreas.tscn")
 var tearerRatio = 1
 var framelock = false
+
+signal wallnudge(direction)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
 	#$EnemyCutter/KinematicBody2D.connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 	arena = $"Arena_Anchor/Area2D/ScreenPolygon"
+	_on_fillwalls(arena.polygon)
 	$Timer.start(3)
 	
 func _spawn_enemies(point: Vector2):
@@ -66,12 +70,11 @@ func _find_point():
 
 func _on_Timer_timeout():
 	var randomPoint = _find_point()
-	print(randomPoint)
+	#print(randomPoint)
 	_spawn_enemies(randomPoint)
 	
 	var randomPointItem = _find_point()
 	_spawn_item(randomPointItem)
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,8 +92,33 @@ func _process(delta):
 			
 	#pass
 	
-	#originPoint = $"../..".to_local(originPoint)
-
-
 func _on_framelock(status):
 	framelock = status
+	
+#Creates separate walls for the arena. Called every time a cut happens
+func _on_fillwalls(shape):
+	var area = get_node("Arena_Anchor")
+	for n in area.get_children():
+		if n.name != "Area2D": area.remove_child(n)
+	for i in shape.size():
+		var wallarea = wall.instance()
+		var segment = wallarea.get_child(0)
+		segment.shape = SegmentShape2D.new()
+		segment.shape.a = shape[i-1]
+		if i == shape.size():
+			segment.shape.b = shape[0]
+		else: segment.shape.b = shape[i]
+		area.add_child(wallarea)
+		wallarea.connect("wall_impact", self, "_on_wall_impacted")
+	#print(area.get_children())
+	
+func delete_children(node):
+	for n in node.get_children():
+		node.remove_child(n)
+
+func _on_wall_impacted(body, a, b):
+	#If an enemy hits a wall while they are being kicked
+	if (body.is_in_group("enemy")) && (body.flyingTime > 0):
+		var normal = a.angle_to_point(b) + PI/2
+		emit_signal("wallnudge", normal)
+		body.get_parent().queue_free()

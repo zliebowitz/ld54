@@ -16,6 +16,7 @@ var rng = RandomNumberGenerator.new()
 var angle: float
 var animationTimer = -1
 var frametime = 0
+var flyingTime = 0
 
 
 const max_speed = 8
@@ -35,7 +36,6 @@ func _ready():
 	
 
 func _physics_process(delta):
-	if frametime < 10: frametime += 1
 	if player && !charging:
 		var my_position = global_position
 		var player_position = player.global_position
@@ -60,6 +60,8 @@ func _physics_process(delta):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if frametime < 10: frametime += 1
+	if flyingTime > 0: flyingTime -= 1
 	if animationTimer >= 0:
 		animationTimer += delta
 		if animationTimer >= 0.5:
