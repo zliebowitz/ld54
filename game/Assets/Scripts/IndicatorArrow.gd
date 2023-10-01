@@ -4,6 +4,7 @@ export(NodePath) onready var player_node = get_node(player_node) as Node
 export(NodePath) onready var camera2D = get_node(camera2D) as Camera2D
 export var tracking_group = "collectibles"
 export var draw_sprite_indicator = true
+export var sprite_origin = Vector2(0,0)
 export var draw_line = true
 export var line_width = 1
 export var line_color = Color.coral
@@ -50,16 +51,20 @@ func is_position_in_viewport(position: Vector2):
 	return get_corrected_viewport_rect().has_point(position);
 	
 func _draw():
-	if(draw_sprite_indicator):
-		for point in indicator_locations:
-			draw_texture(sprite_indicator, point)
 	if(draw_circle):
 		for point in indicator_locations:
 			draw_circle(point, circle_radius, circle_color)
 	if(draw_line):
 		for point in item_positions:
 			draw_line(player_position, point, line_color, line_width)
-	
+	if(draw_sprite_indicator):
+		var i = 0
+		for point in indicator_locations:
+			var angle_to_item = player_position.angle_to_point(point)+PI
+			draw_set_transform(point, angle_to_item, Vector2.ONE)
+			draw_texture(sprite_indicator, -sprite_origin)
+			draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+			i += 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -108,7 +113,8 @@ func _process(delta):
 				indicator_locations.append(p4)
 			else:
 				indicator_locations.append(p3)
-			update()
+			
+	update()
 
 
 
