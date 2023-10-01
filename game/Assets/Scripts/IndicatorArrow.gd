@@ -20,8 +20,6 @@ func _set_sprite_indicator(value):
 	update() # update the node
 
 
-onready var _arrow = $Arrow
-
 var player_position = Vector2(0,0)
 var item_positions = []
 var indicator_locations = []
