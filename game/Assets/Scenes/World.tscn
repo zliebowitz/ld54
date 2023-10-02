@@ -79,6 +79,10 @@ zoom = Vector2( 1.5, 1.5 )
 [node name="KickableCounter" parent="View_Anchor" instance=ExtResource( 13 )]
 position = Vector2( 886, 25 )
 
+[node name="KinematicBody2D" parent="View_Anchor/KickableCounter" index="0"]
+collision_layer = 0
+collision_mask = 0
+
 [node name="SideParticle1" parent="View_Anchor/KickableCounter/KinematicBody2D" index="0"]
 visible = false
 
