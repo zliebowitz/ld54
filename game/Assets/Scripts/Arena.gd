@@ -88,6 +88,10 @@ func _process(delta):
 	for hitlist in baddies:			#See if any enemies are outsize the zone. If so, kill them
 		var body = hitlist.get_node("KinematicBody2D")   #The actual body of the enemy
 		if !Geometry.is_point_in_polygon(arena.to_local(body.position), arena.polygon) && body.frametime > 9:
+			var scene = load("res://Assets/Scenes/EnemyKilledFallOff.tscn")
+			var enemy_killed = scene.instance()
+			enemy_killed.global_position = body.global_position
+			add_child(enemy_killed)
 			hitlist.queue_free()
 	#Check for death
 	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
