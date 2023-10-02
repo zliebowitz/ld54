@@ -11,7 +11,6 @@ var acceleration = 0.1
 var input_velocity = Vector2.ZERO
 var velocity = Vector2.ZERO
 var viewvelocity = Vector2.ZERO
-var items_collected = 0;
 var items_to_spawn = 200
 var min_x = 9999999
 var max_x = -9999999
@@ -65,7 +64,7 @@ func _spawn_item():
 	item.connect("item_picked_up", self, "on_item_pick_up")
 	
 func on_item_pick_up():
-	items_collected += 1
+	Global.items_collected += 1
 
 func _on_Arena_wallnudge(direction, hit_speed):
 	var right = Vector2.RIGHT
