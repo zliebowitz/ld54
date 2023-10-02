@@ -12,7 +12,7 @@ export var draw_circle = true
 export var circle_radius = 5
 export var circle_color = Color.coral
 export var viewport_offset = 20
-export var max_to_show = 10
+export var max_to_show = 2
 
 
 export (Texture) var sprite_indicator setget _set_sprite_indicator

@@ -96,7 +96,11 @@ func _physics_process(delta):
 		for body in bodies:
 			if (body.is_in_group("enemy") && body.flyingTime <= collision_frames - 5) || body.is_in_group("KickableButton"):
 				kicked_enemy = true
-				var kick_direction = global_position.direction_to(get_global_mouse_position())
+				var kick_direction
+				if mouse_direction_has_priority:
+					kick_direction = global_position.direction_to(get_global_mouse_position())
+				else:
+					kick_direction = aim_vector.normalized()
 				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
 				var fling_vector = (kick_direction + enemy_direction).normalized()
 				var angle_between = abs(kick_direction.angle_to(enemy_direction))
