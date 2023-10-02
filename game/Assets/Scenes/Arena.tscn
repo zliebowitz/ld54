@@ -30,7 +30,7 @@ polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
 position = Vector2( 470, 281 )
 
 [node name="KickAnimation" parent="Player/PlayerBody" index="0"]
-frame = 5
+frame = 4
 
 [node name="Timer" type="Timer" parent="."]
 

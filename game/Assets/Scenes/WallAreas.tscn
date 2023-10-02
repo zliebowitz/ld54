@@ -5,7 +5,7 @@
 
 [node name="WallAreas" type="Area2D"]
 collision_layer = 9
-collision_mask = 9
+collision_mask = 15
 script = ExtResource( 2 )
 
 [node name="WallSegment" parent="." instance=ExtResource( 1 )]

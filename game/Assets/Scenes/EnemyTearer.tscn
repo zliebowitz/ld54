@@ -13,8 +13,7 @@ colors = PoolColorArray( 0.92549, 0.92549, 0.92549, 1, 1, 1, 1, 1 )
 [node name="EnemyCutter" type="Node2D"]
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 4
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
@@ -24,7 +23,6 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = ExtResource( 3 )
 animation = "attack"
-frame = 5
 playing = true
 
 [node name="Timer" type="Timer" parent="KinematicBody2D"]
