@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Audio/Music/BGM.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Audio/Music/Title.wav" type="AudioStream" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Scripts/Sounds.gd" type="Script" id=6]
 [ext_resource path="res://Assets/Audio/SFX/ScreenTear.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/Audio/SFX/ChargeTear.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Audio/Music/GameOver.wav" type="AudioStream" id=9]
 
 [node name="Sounds" type="Node"]
 script = ExtResource( 6 )
@@ -20,6 +21,9 @@ stream = ExtResource( 2 )
 
 [node name="musicEndGame" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
+
+[node name="musicGameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
 
 [node name="sfxItem" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
