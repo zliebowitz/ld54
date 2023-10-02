@@ -16,7 +16,7 @@ var min_x = 9999999
 var max_x = -9999999
 var min_y = 9999999
 var max_y = -9999999
-
+const itemWinCount = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -65,6 +65,13 @@ func _spawn_item():
 	
 func on_item_pick_up():
 	Global.items_collected += 1
+	if(Global.items_collected >= itemWinCount):
+		var player = get_node("Arena/Player/PlayerBody")
+		player.accel = 0
+		var simultaneous_scene = preload("res://Assets/UI/UI_EndGame.tscn").instance()
+		simultaneous_scene
+		get_tree().get_root().add_child(simultaneous_scene)
+		simultaneous_scene.get_node("VBoxContainer/Counter").set_text("WIN")
 
 func _on_Arena_wallnudge(direction, hit_speed):
 	var right = Vector2.RIGHT
