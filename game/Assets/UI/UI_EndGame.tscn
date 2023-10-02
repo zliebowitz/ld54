@@ -17,7 +17,7 @@ margin_left = -45.0
 margin_top = -45.0
 
 [node name="Counter" type="Label" parent="VBoxContainer"]
-margin_right = 96.0
+margin_right = 90.0
 margin_bottom = 14.0
 text = "YOU SUCK"
 align = 1
@@ -25,13 +25,13 @@ valign = 1
 
 [node name="ObjectCounter" parent="VBoxContainer" instance=ExtResource( 1 )]
 margin_top = 18.0
-margin_right = 96.0
+margin_right = 90.0
 margin_bottom = 58.0
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 margin_top = 62.0
-margin_right = 96.0
-margin_bottom = 103.0
+margin_right = 90.0
+margin_bottom = 96.0
 theme = ExtResource( 2 )
 text = "REPEAT"
 script = ExtResource( 3 )
