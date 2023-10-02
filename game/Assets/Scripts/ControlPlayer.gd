@@ -72,7 +72,10 @@ func get_input(delta):
 	
 	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
 		$"/root/Sounds/".play_sfx("HeavyKick")
-		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
+		if mouse_direction_has_priority:
+			heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
+		else:
+			heavy_kick_vector = aim_vector.normalized()
 		heavy_kick = .1 + delta
 		
 

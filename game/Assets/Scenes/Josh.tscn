@@ -36,7 +36,6 @@ script = ExtResource( 3 )
 visible = false
 position = Vector2( 17, -1 )
 frames = SubResource( 4 )
-frame = 1
 playing = true
 
 [node name="Sprite" type="Sprite" parent="PlayerBody"]
