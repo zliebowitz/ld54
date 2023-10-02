@@ -12,7 +12,16 @@ export(PackedScene) var next_scene
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio_stream = get_node(audio_stream) as AudioStreamPlayer
-	pass # Replace with function body.
+	var win_loss_label : Label = $KickableTitle/KinematicBody2D/Label
+	if win_loss_label:
+		if Global.items_collected >= Global.item_win_count:
+			win_loss_label.set_text("You Win!")
+		else:
+			win_loss_label.set_text("You Lost!")
+	
+	var item_count_label = $KickableCounter/KinematicBody2D/ObjectCounter/Counter
+	if item_count_label:
+		item_count_label.set_text(str(Global.items_collected))	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
