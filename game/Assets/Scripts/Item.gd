@@ -9,6 +9,6 @@ func _ready():
 func _on_Area2D_body_entered(body):
 	if body.name == "PlayerBody":
 		hide()
-		$"/root/Sounds/sfxItem".play()
+		$"/root/Sounds".play_sfx("Item")
 		emit_signal("item_picked_up")
 		queue_free()

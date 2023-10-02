@@ -63,13 +63,13 @@ func get_input(delta):
 		else:
 			_kick_sprite.scale.y = 1
 			kick_right_animation = true
-		$"/root/Sounds/sfxKick".play()
+		$"/root/Sounds".play_sfx("Kick")
 		_kick_sprite.visible = true
 		_kick_sprite.frame = 0
 		_timer.start()
 	
 	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
-		$"/root/Sounds/sfxHeavyKick".play()
+		$"/root/Sounds/".play_sfx("HeavyKick")
 		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
 		heavy_kick = .1 + delta
 		

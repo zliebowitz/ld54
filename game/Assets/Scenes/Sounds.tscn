@@ -1,17 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Audio/Music/BGM.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Audio/Music/Title.wav" type="AudioStream" id=2]
 [ext_resource path="res://Assets/Audio/SFX/Item.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Audio/SFX/Kick.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/SFX/HeavyKick.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Scripts/Sounds.gd" type="Script" id=6]
 
 [node name="Sounds" type="Node"]
+script = ExtResource( 6 )
 
 [node name="musicBGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 
 [node name="musicTitle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+
+[node name="musicEndGame" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
 
 [node name="sfxItem" type="AudioStreamPlayer" parent="."]
@@ -21,4 +26,7 @@ stream = ExtResource( 3 )
 stream = ExtResource( 4 )
 
 [node name="sfxHeavyKick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="sfxScreenSlice" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
