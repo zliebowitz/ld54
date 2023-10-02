@@ -11,6 +11,7 @@ var framelock = false
 var pointangle
 
 signal wallnudge(direction)
+signal player_is_dead
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -86,11 +87,11 @@ func _process(delta):
 	for hitlist in baddies:			#See if any enemies are outsize the zone. If so, kill them
 		var body = hitlist.get_node("KinematicBody2D")   #The actual body of the enemy
 		if !Geometry.is_point_in_polygon(arena.to_local(body.position), arena.polygon) && body.frametime > 9:
-			#print(hitlist.get_node("../Arena_Anchor/Area2D/ScreenPolygon").to_local(body.position))
 			hitlist.queue_free()
-			#print(hitlist.get_node("KinematicBody2D").position)
-			
-	#pass
+	#Check for death
+	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
+		#print("Thou art dead")
+		emit_signal("player_is_dead")
 	
 func _on_framelock(status):
 	framelock = status
