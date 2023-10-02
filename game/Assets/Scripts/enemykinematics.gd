@@ -5,6 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 onready var collision = $CollisionShape2D
+onready var bump_particles = $BumpParticles
 
 export var speed = 12000
 export var punch_force = 100
@@ -24,6 +25,7 @@ var frametime = 0
 var flyingTime = 0
 var heavy_kicked = false
 var rng = RandomNumberGenerator.new()
+var bump_emitting = 0
 
 const max_speed = 8
 const accel = 2000
@@ -81,9 +83,11 @@ func _physics_process(delta):
 	var touching = $CloseRange.get_overlapping_bodies()
 	for body in touching:
 		if body.name == "PlayerBody":
+			bump_emitting = bump_particles.lifetime * .5
 			norm_velocity = global_position.direction_to(player.global_position).normalized()
 			player.velocity += norm_velocity * punch_force
-		emit_signal("hit_player")
+			emit_signal("hit_player")
+		
 		if body.is_in_group("pushers"):
 			var closeness = global_position.distance_to(body.global_position)
 			norm_velocity = global_position.direction_to(body.global_position).normalized()
@@ -95,6 +99,11 @@ func _physics_process(delta):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	bump_emitting -= delta
+	bump_particles.emitting = (bump_emitting >= 0)
+	
+	
 	if frametime < 10: frametime += 1
 	if flyingTime > 0: flyingTime -= 1
 	if charging > 0: charging -= 1
