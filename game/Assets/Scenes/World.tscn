@@ -61,7 +61,7 @@ tile_data = PoolIntArray( -5177434, 1, 0, -5177432, 1, 0, -5177430, 1, 0, -51774
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false
 color = Color( 0.470588, 0.254902, 0.254902, 1 )
-polygon = PoolVector2Array( -2500, -2500, 2500, -2500, 2500, 2500, -2500, 2500 )
+polygon = PoolVector2Array( -2500, -2200, 2500, -2200, 2500, 2200, -2500, 2200 )
 
 [node name="Arena" parent="." instance=ExtResource( 1 )]
 

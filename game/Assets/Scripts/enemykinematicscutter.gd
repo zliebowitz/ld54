@@ -67,8 +67,8 @@ func _physics_process(delta):
 		pass
 		
 	if flyingTime > 0:	
-		if !$Timer.is_stopped():			#If being kicked, don't advance the timer
-			$Timer.start($Timer.time_left + delta)
+#		if !$Timer.is_stopped():			#If being kicked, don't advance the timer
+#			$Timer.start($Timer.time_left + delta)
 		$WallRayCast.cast_to = (velocity * delta * 2).rotated(-rotation)
 		raycast.force_raycast_update()
 		#print(raycast.get_collider())
