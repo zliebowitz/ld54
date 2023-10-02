@@ -124,10 +124,10 @@ func _process(delta):
 			
 			if(deltay >= 0):
 				p4.y = get_corrected_viewport_rect().end.y - viewport_offset
-				p4.x = (p4.y - y_intercept)/slope
+				p4.x = (p4.y - y_intercept)/(slope+.001)
 			else:
 				p4.y = get_corrected_viewport_rect().position.y + viewport_offset
-				p4.x = (p4.y - y_intercept)/slope
+				p4.x = (p4.y - y_intercept)/(slope+.001)
 			
 			var dist_to_p4 = player_position.distance_to(p4)
 			var dist_to_p3 = player_position.distance_to(p3)

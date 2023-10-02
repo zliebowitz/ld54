@@ -10,7 +10,7 @@ var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var enemySpawner= load("res://Assets/Scenes/EnemySpawner.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
 var rigidwall =   load("res://Assets/Scenes/RigidWall.tscn")
-var tearerRatio = .3
+var tearerRatio = .6
 var framelock = false
 var pointangle
 
