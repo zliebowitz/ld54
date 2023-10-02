@@ -24,7 +24,6 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = ExtResource( 3 )
 animation = "attack"
-frame = 4
 playing = true
 
 [node name="Timer" type="Timer" parent="KinematicBody2D"]
