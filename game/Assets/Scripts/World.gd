@@ -21,6 +21,7 @@ var max_y = -9999999
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Arena/Player/PlayerBody.connect("wallnudge", self, "_on_Arena_wallnudge")
+	if $Item: $Item.connect("item_picked_up", self, "on_item_pick_up")
 	
 	var polygon : Polygon2D = get_node("Polygon2D")
 	var points : PoolVector2Array = polygon.polygon

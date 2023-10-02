@@ -11,7 +11,8 @@ export var speed = 12000
 export var punch_force = 100
 export var boid_force = 200
 export var charge_force = 3000
-export var charge_chance = .2
+export var charge_knockback = 1000
+export var charge_chance = 1
 onready var player = get_node("../../Player/PlayerBody")
 onready var raycast = get_node("WallRayCast")
 var velocity = Vector2.ZERO
@@ -19,6 +20,7 @@ var screen_size # Size of the game window.
 var preparing = false
 var charging = 0
 var charge_cooldown = 0
+var charge_at_time = 0 			#How long we stay actually charging at the player
 var charge_vector = Vector2.ZERO
 var norm_velocity = Vector2.ZERO
 var frametime = 0
@@ -73,26 +75,40 @@ func _physics_process(delta):
 			screen_tear.global_position = global_position
 			screen_tear.rotation = $WallRayCast.get_collision_normal().angle()
 			get_parent().get_parent().add_child(screen_tear)
+				
 			
+	#When the windup ends and it charges you
 	if preparing && charging == 0:
 		velocity += charge_vector * charge_force
+		charge_at_time = 30
 		preparing = false
 			
 	else: raycast.cast_to = Vector2.ZERO
 	
-	var touching = $CloseRange.get_overlapping_bodies()
-	for body in touching:
-		if body.name == "PlayerBody":
-			bump_emitting = bump_particles.lifetime * .5
+	#If not currently charging at player
+	if charge_at_time == 0:
+		var touching = $CloseRange.get_overlapping_bodies()
+		for body in touching:
+			if body.name == "PlayerBody":
+				bump_emitting = bump_particles.lifetime * .5
+				norm_velocity = global_position.direction_to(player.global_position).normalized()
+				player.velocity += norm_velocity * punch_force
+				emit_signal("hit_player")
+			
+			if body.is_in_group("pushers"):
+				var closeness = global_position.distance_to(body.global_position)
+				norm_velocity = global_position.direction_to(body.global_position).normalized()
+				body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
+				velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
+	
+	if charge_at_time > 0:
+		$ChargeRayCast.cast_to = (velocity * delta).rotated(-rotation)
+		$ChargeRayCast.force_raycast_update()
+		if $ChargeRayCast.is_colliding():
+			var playerbody = raycast.get_collider()
 			norm_velocity = global_position.direction_to(player.global_position).normalized()
-			player.velocity += norm_velocity * punch_force
-			emit_signal("hit_player")
-		
-		if body.is_in_group("pushers"):
-			var closeness = global_position.distance_to(body.global_position)
-			norm_velocity = global_position.direction_to(body.global_position).normalized()
-			body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
-			velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
+			player.velocity += norm_velocity * charge_knockback
+			charge_at_time = 0
 	
 	move_and_slide(velocity)
 	
@@ -107,6 +123,7 @@ func _process(delta):
 	if frametime < 10: frametime += 1
 	if flyingTime > 0: flyingTime -= 1
 	if charging > 0: charging -= 1
+	if charge_at_time > 0: charge_at_time -= 1
 
 
 

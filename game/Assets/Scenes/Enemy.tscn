@@ -104,5 +104,9 @@ color = Color( 0.156863, 0.752941, 0.454902, 1 )
 color_ramp = SubResource( 7 )
 color_initial_ramp = SubResource( 8 )
 
+[node name="ChargeRayCast" type="RayCast2D" parent="KinematicBody2D"]
+enabled = true
+cast_to = Vector2( 0, 0 )
+
 [connection signal="timeout" from="KinematicBody2D/Timer" to="KinematicBody2D" method="_on_Timer_timeout"]
 [connection signal="body_shape_entered" from="KinematicBody2D/ChargeRange" to="KinematicBody2D" method="_on_ChargeRange_body_shape_entered"]
