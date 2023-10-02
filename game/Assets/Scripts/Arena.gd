@@ -65,6 +65,27 @@ func _find_point(edge: bool):
 		print(p1)
 	return p1 + ((p2 - p1) * randC)
 
+func _find_parallel_point(corner: bool):
+	var tempArena = arena.duplicate()
+	var rNum1 = rng.randi_range(0, tempArena.polygon.size()-1)
+	var a1 = tempArena.polygon[rNum1]
+	var a2 = tempArena.polygon[(rNum1 + 1) % tempArena.polygon.size()]
+	var randA = rng.randf_range(0, 0.2)
+	
+	var p1 = a2 + ((a1 - a2) * randA)		#Random point on a random edge
+	if rng.randf() < .5:   #CHANGE
+		pointangle = a1.angle_to_point(a2) + PI/2
+	else:
+		if rNum1 == 0:
+			rNum1 = tempArena.polygon.size()
+		pointangle = (a2.angle_to(tempArena.polygon[rNum1-1])) / 2 + PI/2
+	return (p1 + p1.direction_to(arena.to_local($Player/PlayerBody.position)) * 100)
+	
+func _get_pointangle():
+	return pointangle + .01
+	
+	
+
 #Also sets difficulty
 func _on_Timer_timeout():
 	var randomPoint = _find_point(false)
