@@ -19,7 +19,7 @@ polygon = PoolVector2Array( -2500, -2500, 2500, -2500, 2500, 2500, -2500, 2500 )
 texture = ExtResource( 4 )
 
 [node name="KickAnimation" parent="Arena/Player/PlayerBody" index="0"]
-frame = 2
+frame = 0
 
 [node name="View_Anchor" type="KinematicBody2D" parent="."]
 

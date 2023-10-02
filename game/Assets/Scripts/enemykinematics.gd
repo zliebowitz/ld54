@@ -7,7 +7,7 @@ extends KinematicBody2D
 onready var collision = $CollisionShape2D
 
 export var speed = 12000
-export var punch_force = 600
+export var punch_force = 100
 export var boid_force = 200
 onready var player = get_node("../../Player/PlayerBody")
 onready var raycast = get_node("WallRayCast")
@@ -65,6 +65,18 @@ func _physics_process(delta):
 			
 	else: raycast.cast_to = Vector2.ZERO
 	
+	var touching = $CloseRange.get_overlapping_bodies()
+	for body in touching:
+		if body.name == "PlayerBody":
+			norm_velocity = global_position.direction_to(player.global_position).normalized()
+			player.velocity += norm_velocity * punch_force
+		emit_signal("hit_player")
+		if body.is_in_group("pushers"):
+			var closeness = global_position.distance_to(body.global_position)
+			norm_velocity = global_position.direction_to(body.global_position).normalized()
+			body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
+			velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
+	
 	move_and_slide(velocity)
 	
 
@@ -76,16 +88,16 @@ func _process(delta):
 
 
 #The Punch function
-func _on_CloseRange_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_index):
-	if body.name == "PlayerBody":
-		norm_velocity = global_position.direction_to(player.global_position).normalized()
-		player.velocity += norm_velocity * punch_force
-		emit_signal("hit_player")
-	if body.is_in_group("pushers"):
-		var closeness = global_position.distance_to(body.global_position)
-		norm_velocity = global_position.direction_to(body.global_position).normalized()
-		body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
-		velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
+#func _on_CloseRange_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_index):
+#	if body.name == "PlayerBody":
+#		norm_velocity = global_position.direction_to(player.global_position).normalized()
+#		player.velocity += norm_velocity * punch_force
+#		emit_signal("hit_player")
+#	if body.is_in_group("pushers"):
+#		var closeness = global_position.distance_to(body.global_position)
+#		norm_velocity = global_position.direction_to(body.global_position).normalized()
+#		body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
+#		velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
 
 
 #func _on_Timer_timeout():
