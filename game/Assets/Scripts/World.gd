@@ -21,6 +21,8 @@ const itemWinCount = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$Arena/Player/PlayerBody.connect("wallnudge", self, "_on_Arena_wallnudge")
+	
 	var polygon : Polygon2D = get_node("Polygon2D")
 	var points : PoolVector2Array = polygon.polygon
 	for point in points:

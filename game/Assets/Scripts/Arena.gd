@@ -18,7 +18,6 @@ signal player_is_dead
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
-	#$EnemyCutter/KinematicBody2D.connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 	arena = $"Arena_Anchor/Area2D/ScreenPolygon"
 	$Timer.start(2)
 	_on_fillwalls(arena.polygon)

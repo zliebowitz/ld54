@@ -9,6 +9,8 @@ onready var _timer= $CanKickAgainTimer
 export (int) var speed = 100
 export var kick_power = 2000
 export var collision_frames = 60 	#Number of frames that a kicked enemy can impact a wall
+export var heavy_kick_charge = 0
+export var heavy_kick_screen_movement = 500
 
 var input_vector = Vector2.ZERO
 var aim_vector = Vector2.ZERO
@@ -28,6 +30,8 @@ const heavy_kick_power = 1200
 const heavy_kick_speed = 1000
 const heavy_kick_winddown = .2
 const heavy_kick_winddown_friction = friction * 75
+
+signal wallnudge
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -108,6 +112,12 @@ func _physics_process(delta):
 		if kicked_enemy:
 			velocity *= -1
 			heavy_kick = heavy_kick_winddown * -1
+		else:
+			var walls = _player_kick.get_overlapping_areas()
+			for w in walls:
+				if w.is_in_group("Wall"):
+					var normal = w.get_child(0).shape.a.angle_to_point(w.get_child(0).shape.b) + PI/2
+					emit_signal("wallnudge", normal, heavy_kick_screen_movement)
 	
 	
 	velocity += input_vector * accel * delta
