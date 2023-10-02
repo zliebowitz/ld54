@@ -9,6 +9,7 @@ onready var _timer= $CanKickAgainTimer
 export (int) var speed = 100
 export var kick_power = 2000
 export var collision_frames = 60 	#Number of frames that a kicked enemy can impact a wall
+export var heavy_kick_charge = 0
 
 var input_vector = Vector2.ZERO
 var aim_vector = Vector2.ZERO
@@ -63,7 +64,7 @@ func get_input(delta):
 		_kick_sprite.frame = 0
 		_timer.start()
 	
-	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
+	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0  && heavy_kick_charge >= 3:
 		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
 		heavy_kick = .1 + delta
 		
@@ -91,13 +92,15 @@ func _physics_process(delta):
 				body.flyingTime = collision_frames
 		if kicked_enemy:
 			velocity += global_position.direction_to(get_global_mouse_position()) * -200
+			if heavy_kick_charge < 3: heavy_kick_charge += 1
 
 
 
 	# Process heavy kick.
-	if heavy_kick >= heavy_kick_winddown * -1:
+	if (heavy_kick >= heavy_kick_winddown * -1):
 		var kicked_enemy = false
 		var bodies =  _player_kick.get_overlapping_bodies()
+		heavy_kick_charge = 0
 		for body in bodies:
 			if body.is_in_group("enemy"):
 				kicked_enemy = true
