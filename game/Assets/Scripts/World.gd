@@ -87,7 +87,8 @@ func _spawn_item():
 func on_item_pick_up():
 	Global.items_collected += 1
 	if(Global.items_collected >= Global.item_win_count):
-		get_tree().change_scene("res://Assets/Scenes/GameLevels/EndGame.tscn")
+		get_tree().change_scene("res://Assets/Scenes/CutScene.tscn")
+		$"/root/Sounds".stop_music()
 
 func _on_Arena_wallnudge(direction, hit_speed):
 	print(hit_speed)
