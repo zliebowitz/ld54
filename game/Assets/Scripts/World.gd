@@ -11,12 +11,12 @@ var acceleration = 0.1
 var input_velocity = Vector2.ZERO
 var velocity = Vector2.ZERO
 var viewvelocity = Vector2.ZERO
-var items_to_spawn = 200
+var items_to_spawn = 14
 var min_x = 9999999
 var max_x = -9999999
 var min_y = 9999999
 var max_y = -9999999
-const itemWinCount = 5
+const itemWinCount = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
