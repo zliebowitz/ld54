@@ -69,7 +69,7 @@ position = Vector2( 482, 50 )
 texture = ExtResource( 9 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 790, 177 )
+position = Vector2( 790, 250 )
 texture = ExtResource( 8 )
 
 [node name="Sprite3" type="Sprite" parent="."]
@@ -81,7 +81,7 @@ position = Vector2( 274, 457 )
 texture = ExtResource( 11 )
 
 [node name="Sprite5" type="Sprite" parent="."]
-position = Vector2( 720, 373 )
+position = Vector2( 1070, 350 )
 texture = ExtResource( 12 )
 
 [node name="Arena" parent="." instance=ExtResource( 1 )]
