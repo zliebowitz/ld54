@@ -125,7 +125,7 @@ func _process(delta):
 	bump_particles.emitting = (bump_emitting >= 0)
 	
 	if charging > 0:
-		var shade = (30 - charging)
+		var shade = (charging_time - charging)
 		var newParticleColor = Color((default_color.r + shade*6)/255.0, (default_color.g - shade)/255.0, (default_color.b - shade)/255.0)
 		var newModulateColor = Color(1 + shade/15.0, (255 - shade * 5)/255.0, (255 - shade * 5)/255.0)
 		#upper_particles.color = newParticleColor
