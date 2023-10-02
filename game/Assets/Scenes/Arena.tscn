@@ -21,7 +21,7 @@ script = ExtResource( 3 )
 [node name="ScreenPolygon" type="Polygon2D" parent="Arena_Anchor/Area2D"]
 color = Color( 0.4, 0, 0, 0.784314 )
 invert_enable = true
-invert_border = 500.3
+invert_border = 2000.0
 polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
 script = ExtResource( 1 )
 
