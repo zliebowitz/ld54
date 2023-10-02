@@ -34,6 +34,7 @@ const heavy_kick_winddown_friction = friction * 75
 signal wallnudge
 
 func _ready():
+	_kick_sprite.playing = true
 	screen_size = get_viewport_rect().size
 
 func _input(event):
