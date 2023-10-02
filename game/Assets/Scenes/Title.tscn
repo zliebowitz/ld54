@@ -157,13 +157,13 @@ playing = true
 [node name="AnimatedSign" type="AnimatedSprite" parent="."]
 position = Vector2( 250, 191 )
 frames = SubResource( 21 )
-frame = 5
+frame = 1
 playing = true
 
 [node name="AnimatedRain" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 176 )
 frames = SubResource( 12 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Sprite" type="Sprite" parent="."]
