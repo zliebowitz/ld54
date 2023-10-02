@@ -24,7 +24,7 @@ var kick_right_animation = true
 var mouse_direction_has_priority = true
 
 const max_speed = 12
-const accel = 2000
+var accel = 2000
 const friction = 80
 const heavy_kick_power = 1200
 const heavy_kick_speed = 1000
@@ -67,7 +67,7 @@ func get_input(delta):
 		_kick_sprite.frame = 0
 		_timer.start()
 	
-	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0  && heavy_kick_charge >= 3:
+	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0:
 		heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
 		heavy_kick = .1 + delta
 		
@@ -95,17 +95,15 @@ func _physics_process(delta):
 				body.flyingTime = collision_frames
 		if kicked_enemy:
 			velocity += global_position.direction_to(get_global_mouse_position()) * -200
-			if heavy_kick_charge < 3: heavy_kick_charge += 1
 
 
 
 	# Process heavy kick.
-	if (heavy_kick >= heavy_kick_winddown * -1):
+	if heavy_kick >= heavy_kick_winddown * -1:
 		var kicked_enemy = false
 		var bodies =  _player_kick.get_overlapping_bodies()
-		heavy_kick_charge = 0
 		for body in bodies:
-			if body.is_in_group("enemy"):
+			if body.is_in_group("enemy") || body.is_in_group("KickableButton"):
 				kicked_enemy = true
 				body.velocity += heavy_kick_vector * heavy_kick_power
 				body.heavy_kicked = true

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/UI/Widgets/UI_CounterB.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/UI/GameTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/UI/Scripts/Button.gd" type="Script" id=3]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -16,7 +17,7 @@ margin_left = -45.0
 margin_top = -45.0
 
 [node name="Counter" type="Label" parent="VBoxContainer"]
-margin_right = 90.0
+margin_right = 96.0
 margin_bottom = 14.0
 text = "YOU SUCK"
 align = 1
@@ -24,12 +25,15 @@ valign = 1
 
 [node name="ObjectCounter" parent="VBoxContainer" instance=ExtResource( 1 )]
 margin_top = 18.0
-margin_right = 90.0
+margin_right = 96.0
 margin_bottom = 58.0
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 margin_top = 62.0
-margin_right = 90.0
-margin_bottom = 96.0
+margin_right = 96.0
+margin_bottom = 103.0
 theme = ExtResource( 2 )
 text = "REPEAT"
+script = ExtResource( 3 )
+
+[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button" method="_on_Button_pressed"]

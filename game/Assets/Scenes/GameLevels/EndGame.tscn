@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Scenes/Arena.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Scripts/World.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/UI/Widgets/UI_KickableButton.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Scripts/TitleSceneManager.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Audio/Music/Title.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/UI/Widgets/UI_KickableCounter.tscn" type="PackedScene" id=9]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
@@ -24,13 +25,16 @@ bSpawnOrbs = false
 texture = ExtResource( 4 )
 
 [node name="Player" parent="Arena" index="1"]
-position = Vector2( -300, 0 )
+position = Vector2( 40, 151 )
 
-[node name="Item" parent="Arena" index="3"]
-position = Vector2( 400, 300 )
+[node name="PlayerBody" parent="Arena/Player" index="0"]
+rotation = 4.71239
 
-[node name="KickableButton" parent="Arena" instance=ExtResource( 6 )]
-position = Vector2( 275, 269 )
+[node name="KickAnimation" parent="Arena/Player/PlayerBody" index="0"]
+frame = 0
+
+[node name="KickableCounter" parent="Arena" instance=ExtResource( 9 )]
+position = Vector2( 488, 174 )
 
 [node name="View_Anchor" type="KinematicBody2D" parent="."]
 
@@ -56,22 +60,25 @@ next_scene = ExtResource( 1 )
 stream = ExtResource( 8 )
 autoplay = true
 
-[node name="Label" type="Label" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 813.0
-margin_top = 9.0
-margin_right = 954.0
-margin_bottom = 57.0
-text = "Let's practice kicking! 
-LMB: Light Kick
-RMB: Heavy Kick"
+[node name="KickableButton" parent="." instance=ExtResource( 6 )]
+position = Vector2( 605, 233 )
+
+[node name="KinematicBody2D" parent="KickableButton" index="0"]
+LabelText = "Restart!"
+
+[node name="KickableTitle" parent="." instance=ExtResource( 6 )]
+position = Vector2( 378, 115 )
+
+[node name="KinematicBody2D" parent="KickableTitle" index="0"]
+LabelText = "You suck!"
 
 [connection signal="wallnudge" from="Arena" to="." method="_on_Arena_wallnudge"]
-[connection signal="OnHitWall" from="Arena/KickableButton/KinematicBody2D" to="TitleSceneManager" method="_on_start_button_pressed"]
+[connection signal="OnHitWall" from="Arena/KickableCounter/KinematicBody2D" to="TitleSceneManager" method="_on_start_button_pressed"]
+[connection signal="OnHitWall" from="KickableButton/KinematicBody2D" to="TitleSceneManager" method="_on_start_button_pressed"]
+[connection signal="OnHitWall" from="KickableTitle/KinematicBody2D" to="." method="_on_start_button_pressed"]
 
 [editable path="Arena"]
 [editable path="Arena/Player"]
-[editable path="Arena/KickableButton"]
+[editable path="Arena/KickableCounter"]
+[editable path="KickableButton"]
+[editable path="KickableTitle"]

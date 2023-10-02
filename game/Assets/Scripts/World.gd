@@ -11,13 +11,12 @@ var acceleration = 0.1
 var input_velocity = Vector2.ZERO
 var velocity = Vector2.ZERO
 var viewvelocity = Vector2.ZERO
-var items_collected = 0;
-var items_to_spawn = 200
+var items_to_spawn = 14
 var min_x = 9999999
 var max_x = -9999999
 var min_y = 9999999
 var max_y = -9999999
-
+const itemWinCount = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -67,7 +66,14 @@ func _spawn_item():
 	item.connect("item_picked_up", self, "on_item_pick_up")
 	
 func on_item_pick_up():
-	items_collected += 1
+	Global.items_collected += 1
+	if(Global.items_collected >= itemWinCount):
+		var player = get_node("Arena/Player/PlayerBody")
+		player.accel = 0
+		var simultaneous_scene = preload("res://Assets/UI/UI_EndGame.tscn").instance()
+		simultaneous_scene
+		get_tree().get_root().add_child(simultaneous_scene)
+		simultaneous_scene.get_node("VBoxContainer/Counter").set_text("WIN")
 
 func _on_Arena_wallnudge(direction, hit_speed):
 	var right = Vector2.RIGHT
