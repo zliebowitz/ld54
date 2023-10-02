@@ -32,7 +32,7 @@ position = Vector2( 40, 151 )
 rotation = 4.71239
 
 [node name="KickAnimation" parent="Arena/Player/PlayerBody" index="0"]
-frame = 3
+frame = 2
 
 [node name="KickableCounter" parent="Arena" instance=ExtResource( 9 )]
 position = Vector2( 488, 174 )
