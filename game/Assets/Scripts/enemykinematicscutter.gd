@@ -105,6 +105,7 @@ func _process(delta):
 			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -900
 
 func _on_reaching_objective():
+	$"/root/Sounds".play_sfx("ChargeTear")
 	animatedSprite.play("attack")
 	charging = true
 	#rotation = -(angle + PI/2)
