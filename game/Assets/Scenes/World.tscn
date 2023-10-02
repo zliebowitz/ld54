@@ -65,7 +65,7 @@ color = Color( 0.470588, 0.254902, 0.254902, 1 )
 polygon = PoolVector2Array( -2500, -2200, 2500, -2200, 2500, 2200, -2500, 2200 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 482, 69 )
+position = Vector2( 482, 50 )
 texture = ExtResource( 9 )
 
 [node name="Sprite2" type="Sprite" parent="."]
