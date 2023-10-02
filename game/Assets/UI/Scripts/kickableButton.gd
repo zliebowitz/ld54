@@ -1,9 +1,3 @@
-###
-#  Kickable Button works like this:
-# 	Label's text gets set on begin play
-#   If you want to programmatically do it, set via SetLabelText(TEXT) 
-#   you could do this via signals if you want to do that... 
-
 #   This KickableButton emits OnBeginKick, OnEndKick, OnHitWall signals. 
 #   OnBeginKick happens when you first kick it
 #   onEndKick happens when it stops moving after a kick
@@ -13,11 +7,9 @@
 
 extends KinematicBody2D
 
-export var LabelText = "Text"
-
 onready var raycast = get_node("WallRayCast")
 onready var collision = $CollisionShape2D
-onready var label = $Label
+
 
 signal wall_impact(wall, body, hit_speed)
 signal OnBeginKick
@@ -42,13 +34,7 @@ var OutsideOfMap = false
 func _ready():
 	screen_size = get_viewport_rect().size
 	add_to_group("KickableButton")
-	SetLabelText(LabelText)
-		
-		
-func SetLabelText(text):
-	if(label):
-		label.text = text
-	
+
 	
 
 ### Object is stationary except for when the player kicks it. 

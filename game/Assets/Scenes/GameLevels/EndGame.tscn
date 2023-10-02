@@ -12,6 +12,7 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
+bSpawnObjects = false
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color( 0.470588, 0.254902, 0.254902, 1 )
@@ -19,7 +20,6 @@ polygon = PoolVector2Array( -2500, -2500, 2500, -2500, 2500, 2500, -2500, 2500 )
 
 [node name="Arena" parent="." instance=ExtResource( 1 )]
 bSpawnEnemies = false
-bSpawnOrbs = false
 
 [node name="ScreenPolygon" parent="Arena/Arena_Anchor/Area2D" index="0"]
 texture = ExtResource( 4 )
@@ -31,7 +31,7 @@ position = Vector2( 40, 151 )
 rotation = 4.71239
 
 [node name="KickAnimation" parent="Arena/Player/PlayerBody" index="0"]
-frame = 0
+frame = 4
 
 [node name="KickableCounter" parent="Arena" instance=ExtResource( 9 )]
 position = Vector2( 488, 174 )
@@ -62,15 +62,11 @@ autoplay = true
 
 [node name="KickableButton" parent="." instance=ExtResource( 6 )]
 position = Vector2( 605, 233 )
-
-[node name="KinematicBody2D" parent="KickableButton" index="0"]
 LabelText = "Restart!"
 
 [node name="KickableTitle" parent="." instance=ExtResource( 6 )]
 position = Vector2( 378, 115 )
-
-[node name="KinematicBody2D" parent="KickableTitle" index="0"]
-LabelText = "You suck!"
+LabelText = "You Suck!"
 
 [connection signal="wallnudge" from="Arena" to="." method="_on_Arena_wallnudge"]
 [connection signal="OnHitWall" from="Arena/KickableCounter/KinematicBody2D" to="TitleSceneManager" method="_on_start_button_pressed"]

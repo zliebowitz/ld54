@@ -1,5 +1,7 @@
 extends Node2D
 
+export var bSpawnEnemies = true
+
 
 onready var arena = get_node("Arena_Anchor/Area2D/ScreenPolygon")
 var rng = RandomNumberGenerator.new()
@@ -75,8 +77,8 @@ func _find_point(edge: bool):
 
 func _on_Timer_timeout():
 	var randomPoint = _find_point(false)
-	#print(randomPoint)
-	_spawn_enemies(randomPoint)
+	if bSpawnEnemies:
+		_spawn_enemies(randomPoint)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

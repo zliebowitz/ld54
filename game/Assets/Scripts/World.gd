@@ -1,5 +1,6 @@
 extends Node2D
 
+export var bSpawnObjects = true
 
 onready var arena = get_node("Arena/Arena_Anchor")
 var item01 = load("res://Assets/Scenes/Item.tscn")
@@ -27,8 +28,10 @@ func _ready():
 		max_x = max(max_x, point.x)
 		min_y = min(min_y, point.y)
 		max_y = max(max_y, point.y)
-	for i in range(items_to_spawn):
-		_spawn_item()
+	
+	if (bSpawnObjects):
+		for i in range(items_to_spawn):
+			_spawn_item()
 
 func _physics_process(delta):
 
