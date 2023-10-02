@@ -24,26 +24,6 @@ func _ready():
 	_on_fillwalls(arena.polygon)
 	
 func _spawn_enemies(point: Vector2):
-#	"""var enemy
-#	#Determines if it is a Tearer or a Pusher
-#	if (rng.randf() < tearerRatio):
-#		enemy = enemyTearer.instance()
-#		var enemybody = enemy.get_node("KinematicBody2D")
-#		add_child(enemy)
-#		enemybody.connect("cut_event", $Arena_Anchor/Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
-#		#enemybody.angle = rng.randf_range(0, PI)
-#		enemybody.angle = pointangle
-#		enemybody.objective_point = _find_point(true)
-#		#print(enemybody.objective_point)
-#	else: 
-#		enemy = enemyPusher.instance()
-#		var enemybody = enemy.get_node("KinematicBody2D")
-#		enemybody.add_to_group("pushers")
-#		add_child(enemy)
-#	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
-#	enemy.get_node("KinematicBody2D").connect("wall_impact", self, "_on_wall_impacted")
-#	enemy.add_to_group("enemies")"""
-	
 	var spawner = enemySpawner.instance()
 	spawner.position = $Arena_Anchor.to_global(point)
 	var spawnType = 1
@@ -85,8 +65,10 @@ func _find_point(edge: bool):
 		print(p1)
 	return p1 + ((p2 - p1) * randC)
 
+#Also sets difficulty
 func _on_Timer_timeout():
 	var randomPoint = _find_point(false)
+	$Timer.start(2 - (Global.items_collected / 5))
 	if bSpawnEnemies && Global.items_collected > 0:
 		_spawn_enemies(randomPoint)
 

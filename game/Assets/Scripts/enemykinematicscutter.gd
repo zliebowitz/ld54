@@ -22,11 +22,12 @@ var frametime = 0
 var flyingTime = 0
 var objective_point
 var heavy_kicked = false
+var objective_reached = false
 
 
-const max_speed = 8
+const max_speed = 12
 const accel = 2000
-const friction = 80
+const friction = 100
 
 
 signal cut_event(angle, originPoint)
@@ -87,8 +88,8 @@ func _physics_process(delta):
 
 	move_and_slide(velocity)
 	
-	if my_position.distance_to(objective_point) < 5:
-		_on_reaching_objective()
+	if my_position.distance_to(objective_point) < 10:
+		if !objective_reached: _on_reaching_objective()
 	
 	#global_position.x = clamp(global_position.x, 0, screen_size.x)
 	#global_position.y = clamp(global_position.y, 0, screen_size.y)
@@ -108,14 +109,16 @@ func _process(delta):
 			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -900
 
 func _on_reaching_objective():
+	velocity = Vector2.ZERO
+	objective_reached = true
 	$"/root/Sounds".play_sfx("ChargeTear")
 	animatedSprite.play("attack")
 	charging = true
 	#rotation = -(angle + PI/2)
-	$Timer.start(3)
+	$Timer.start(2.75 - (Global.items_collected / 5))
 	animationTimer = 0
 	#if player && ($BackParticles.overlaps_body(player) || $FrontParticles.overlaps_body(player)):
-	emit_signal("hit_player")
+	#emit_signal("hit_player")
 	return
 
 

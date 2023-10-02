@@ -28,7 +28,7 @@ height = 32.0
 
 [sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.00558659, 0.698324, 1 )
-colors = PoolColorArray( 0.803922, 0, 1, 0.682353, 0.898039, 0, 1, 1, 1, 0, 0.494118, 1, 0.313726, 0, 1, 0 )
+colors = PoolColorArray( 1, 0, 0, 0.682353, 1, 0.188235, 0, 1, 1, 0.701961, 0, 1, 0.992157, 1, 0, 0 )
 
 [node name="Player" type="Node2D"]
 

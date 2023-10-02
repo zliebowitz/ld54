@@ -3,6 +3,7 @@ extends Node2D
 export var bSpawnObjects = true
 
 onready var arena = get_node("Arena/Arena_Anchor")
+var rng = RandomNumberGenerator.new()
 var item01 = load("res://Assets/Scenes/Item.tscn")
 var speed = 1
 var friction = 80
@@ -23,6 +24,7 @@ const max_speed = 12
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
 	$Arena/Player/PlayerBody.connect("wallnudge", self, "_on_Arena_wallnudge")
 	if $Item: $Item.connect("item_picked_up", self, "on_item_pick_up")
 	
@@ -79,7 +81,7 @@ func _physics_process(delta):
 func _spawn_item():
 	var item = item01.instance()
 	add_child(item)
-	item.position = Vector2(rand_range(min_x, max_x), rand_range(min_y, max_y))
+	item.position = Vector2(rng.randi_range(min_x, max_x), rng.randi_range(min_y, max_y))
 	item.connect("item_picked_up", self, "on_item_pick_up")
 	
 func on_item_pick_up():

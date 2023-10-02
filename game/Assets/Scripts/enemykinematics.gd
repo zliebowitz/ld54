@@ -16,7 +16,7 @@ export var punch_force = 100
 export var boid_force = 200
 export var charge_force = 3000
 export var charge_knockback = 1000
-export var charge_chance = 1
+export var charge_chance = 0.4
 onready var player = get_node("../../Player/PlayerBody")
 onready var raycast = get_node("WallRayCast")
 var velocity = Vector2.ZERO
@@ -110,6 +110,11 @@ func _physics_process(delta):
 				norm_velocity = global_position.direction_to(body.global_position).normalized()
 				body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
 				velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
+		var chargeable = $ChargeRange.get_overlapping_bodies()
+		for body in chargeable:
+			if body.name == "PlayerBody":
+				_on_ChargeRange_body_shape_entered(0, body, 0, 0)
+			
 	
 	if charge_at_time > 0:
 		$ChargeRayCast.cast_to = (velocity * delta).rotated(-rotation)
@@ -149,36 +154,15 @@ func _process(delta):
 	if flyingTime > 0: flyingTime -= 1
 	if charging > 0: charging -= 1
 	if charge_at_time > 0: charge_at_time -= 1
+	if charge_cooldown > 0: charge_cooldown -= 1
 
-
-
-#The Punch function
-#func _on_CloseRange_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_index):
-#	if body.name == "PlayerBody":
-#		norm_velocity = global_position.direction_to(player.global_position).normalized()
-#		player.velocity += norm_velocity * punch_force
-#		emit_signal("hit_player")
-#	if body.is_in_group("pushers"):
-#		var closeness = global_position.distance_to(body.global_position)
-#		norm_velocity = global_position.direction_to(body.global_position).normalized()
-#		body.velocity += norm_velocity * boid_force * (23 / (closeness + .01))
-#		velocity -= norm_velocity * boid_force * (23 / (closeness + .01))
-
-
-#func _on_Timer_timeout():
-#	pass
-#	if player && $Punch.overlaps_body(player):
-#		norm_velocity = global_position.direction_to(player.global_position).normalized()
-#		#print("roblox.oof")
-#		player.move_and_collide(norm_velocity * punch_force)
-#		emit_signal("hit_player")
-#	preparing = false
 
 
 func _on_ChargeRange_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	if body.name == "PlayerBody" && charge_cooldown == 0 && rng.randf() < charge_chance:
-		preparing = true
-		charging = charging_time
-		charge_cooldown = 200
-		charge_vector = global_position.direction_to(player.global_position).normalized()
+	if body.name == "PlayerBody" && charge_cooldown == 0:
+		charge_cooldown = 100
+		if rng.randf() < charge_chance:
+			preparing = true
+			charging = charging_time
+			charge_vector = global_position.direction_to(player.global_position).normalized()
 	pass # Replace with function body.
