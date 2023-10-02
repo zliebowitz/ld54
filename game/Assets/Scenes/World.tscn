@@ -66,22 +66,26 @@ polygon = PoolVector2Array( -2500, -2200, 2500, -2200, 2500, 2200, -2500, 2200 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 482, 50 )
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 9 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 790, 150 )
+position = Vector2( 700, 350 )
 texture = ExtResource( 8 )
 
 [node name="Sprite3" type="Sprite" parent="."]
-position = Vector2( 189, 167 )
+position = Vector2( 800, 167 )
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 10 )
 
 [node name="Sprite4" type="Sprite" parent="."]
-position = Vector2( 274, 457 )
+position = Vector2( 190, 480 )
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 11 )
 
 [node name="Sprite5" type="Sprite" parent="."]
-position = Vector2( 720, 325 )
+position = Vector2( 480, 140 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 12 )
 
 [node name="Arena" parent="." instance=ExtResource( 1 )]
