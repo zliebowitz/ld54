@@ -6,6 +6,7 @@ extends KinematicBody2D
 # var b = "text"
 onready var collision = $CollisionShape2D
 onready var bump_particles = $BumpParticles
+onready var big_bump_particles = $BigBumpParticles
 onready var upper_particles = $UpperParticles
 onready var lower_particles = $LowerParticles
 onready var sprite = $AnimatedSprite
@@ -31,12 +32,13 @@ var flyingTime = 0
 var heavy_kicked = false
 var rng = RandomNumberGenerator.new()
 var bump_emitting = 0
+var big_bump_emitting = 0
 
 const max_speed = 8
 const accel = 2000
 const friction = 100
 const default_color = Color(40.0/255.0,192.0/255.0,116.0/255.0)
-const charging_time = 40
+const charging_time = 30
 
 signal hit_player
 signal wall_impact(wall, body, hit_speed)
@@ -110,6 +112,7 @@ func _physics_process(delta):
 		$ChargeRayCast.cast_to = (velocity * delta).rotated(-rotation)
 		$ChargeRayCast.force_raycast_update()
 		if $ChargeRayCast.is_colliding():
+			big_bump_emitting = big_bump_particles.lifetime * .5
 			var playerbody = raycast.get_collider()
 			norm_velocity = global_position.direction_to(player.global_position).normalized()
 			player.velocity += norm_velocity * charge_knockback
@@ -123,6 +126,8 @@ func _process(delta):
 	
 	bump_emitting -= delta
 	bump_particles.emitting = (bump_emitting >= 0)
+	big_bump_emitting -= delta
+	big_bump_particles.emitting = (big_bump_emitting >= 0)
 	
 	if charging > 0:
 		var shade = (charging_time - charging)
