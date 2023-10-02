@@ -17,7 +17,7 @@ var particle_count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	objective_point = get_parent()._find_point(true)
+	objective_point = get_parent()._find_parallel_point(true)
 	rotation = position.angle_to_point(objective_point) - PI/2
 	if spawnType == 0:
 		tearer_particles.emitting = true
@@ -37,7 +37,7 @@ func _process(delta):
 			var enemybody = enemy.get_node("KinematicBody2D")
 			get_parent().add_child(enemy)
 			enemybody.connect("cut_event", get_parent().get_node("./Arena_Anchor/Area2D/ScreenPolygon"), "_on_EnemyCutter_cut_event")
-			enemybody.angle = rotation
+			enemybody.angle = get_parent()._get_pointangle()
 			enemybody.objective_point = objective_point
 			tearer_particles.emitting = false
 		else: 
