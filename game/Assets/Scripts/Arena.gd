@@ -116,7 +116,7 @@ func _on_framelock(status):
 func _on_fillwalls(shape):
 	var area = get_node("Arena_Anchor")
 	for n in area.get_children():
-		if n.name != "Area2D": area.remove_child(n)
+		if n.name != "Area2D" && n.name != "Anchor_Collision": area.remove_child(n)
 	for i in shape.size():
 		var wallarea = wall.instance()
 		var rigidwallarea = rigidwall.instance()
@@ -134,7 +134,7 @@ func _on_fillwalls(shape):
 			segment2.shape.b = shape[i]
 		area.add_child(wallarea)
 		area.add_child(rigidwallarea)
-	print(area.get_children())
+	#print(area.get_children())
 		#wallarea.connect("wall_impact", self, "_on_wall_impacted")
 	#print(area.get_children())
 	
