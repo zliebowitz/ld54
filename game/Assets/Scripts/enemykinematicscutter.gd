@@ -100,9 +100,9 @@ func _process(delta):
 		if animationTimer >= 0.5:
 			animatedSprite.play("charge")
 			backParticles.emitting = true
-			backParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * 500
+			backParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * 900
 			frontParticles.emitting = true
-			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -500
+			frontParticles.initial_velocity = ((animationTimer - 0.5)/ 2.5) * -900
 
 func _on_reaching_objective():
 	animatedSprite.play("attack")
