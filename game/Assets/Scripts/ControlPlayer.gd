@@ -41,19 +41,21 @@ func _input(event):
 		mouse_direction_has_priority = true
 	
 func get_input(delta):
+	input_vector.x = Input.get_axis("ui_left", "ui_right")
+	input_vector.y = Input.get_axis("ui_up", "ui_down")
+	aim_vector.x = Input.get_axis("aim_left", "aim_right")
+	aim_vector.y = Input.get_axis("aim_up", "aim_down")
+	
+	# 0.2^2
+	if aim_vector.length_squared() > .04:
+		mouse_direction_has_priority = false
+	elif !mouse_direction_has_priority:
+		aim_vector = input_vector
+	
 	
 	# Handle direcitonal inputs
-	input_vector.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	input_vector.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	input_vector = input_vector.normalized()
-	
-
-	aim_vector.x = int(Input.is_action_pressed("aim_right")) - int(Input.is_action_pressed("aim_left"))
-	aim_vector.y = int(Input.is_action_pressed("aim_down")) - int(Input.is_action_pressed("aim_up"))
-	aim_vector = aim_vector.normalized()
-	if(aim_vector != Vector2.ZERO):
-		mouse_direction_has_priority = false
-	
+	if input_vector.length_squared() > 1.0:
+		input_vector = input_vector.normalized()
 	
 	# Handle kick input
 	if Input.is_action_pressed("attack") && _timer.is_stopped():
