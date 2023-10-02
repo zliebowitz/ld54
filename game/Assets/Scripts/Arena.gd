@@ -32,10 +32,12 @@ func _spawn_enemies(point: Vector2):
 		enemybody.connect("cut_event", $Arena_Anchor/Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 		#enemybody.angle = rng.randf_range(0, PI)
 		enemybody.angle = pointangle
-		enemybody.objective_point = _find_point()
+		enemybody.objective_point = _find_point(true)
 		#print(enemybody.objective_point)
 	else: 
 		enemy = enemyPusher.instance()
+		var enemybody = enemy.get_node("KinematicBody2D")
+		enemybody.add_to_group("pushers")
 		add_child(enemy)
 	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
 	enemy.get_node("KinematicBody2D").connect("wall_impact", self, "_on_wall_impacted")
@@ -51,18 +53,24 @@ func _spawn_item(point: Vector2):
 	item.connect("picked_up", self, "on_item_pickup")
 	
 
-func _find_point():
+func _find_point(edge: bool):
+	var a1
 	var a2
+	var b1
 	var b2
 	var tempArena = arena.duplicate()
 	var rNum1 = rng.randi_range(0, tempArena.polygon.size()-1)
-	var a1 = tempArena.polygon[rNum1]
+	a1 = tempArena.polygon[rNum1]
 	if rNum1 == tempArena.polygon.size()-1: a2 = tempArena.polygon[0]
 	else: a2 = tempArena.polygon[rNum1+1]
 	
-	var rNum2 = rng.randi_range(1, tempArena.polygon.size()-1)
-	var b1 = tempArena.polygon[(rNum1 + rNum2) % tempArena.polygon.size()]
-	b2 = tempArena.polygon[(rNum1 + rNum2 + 1) % tempArena.polygon.size()]
+	if edge:
+		b1 = a2
+		b2 = tempArena.polygon[(rNum1 + 2) % tempArena.polygon.size()]
+	else:
+		var rNum2 = rng.randi_range(1, tempArena.polygon.size()-1)
+		b1 = tempArena.polygon[(rNum1 + rNum2) % tempArena.polygon.size()]
+		b2 = tempArena.polygon[(rNum1 + rNum2 + 1) % tempArena.polygon.size()]
 	var randA = rng.randf_range(0, 1)
 	var randB = rng.randf_range(0, 1)
 	var randC = rng.randf_range(0, 1)
@@ -70,18 +78,18 @@ func _find_point():
 	var p1 = a1 + ((a2 - a1) * randA)
 	var p2 = b1 + ((b2 - b1) * randB)
 	
-	pointangle = p1.angle_to_point(p2)
+	pointangle = p1.angle_to_point(p2) + PI/2
 	if pointangle < 0: pointangle += PI
 	if (p1 + ((p2 - p1) * randC)).x == 956:
 		print(p1)
 	return p1 + ((p2 - p1) * randC)
 
 func _on_Timer_timeout():
-	var randomPoint = _find_point()
+	var randomPoint = _find_point(false)
 	#print(randomPoint)
 	_spawn_enemies(randomPoint)
 	
-	var randomPointItem = _find_point()
+	var randomPointItem = _find_point(false)
 	_spawn_item(randomPointItem)
 	
 func on_item_pickup():
