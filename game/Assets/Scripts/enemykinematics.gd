@@ -6,6 +6,9 @@ extends KinematicBody2D
 # var b = "text"
 onready var collision = $CollisionShape2D
 onready var bump_particles = $BumpParticles
+onready var upper_particles = $UpperParticles
+onready var lower_particles = $LowerParticles
+onready var sprite = $AnimatedSprite
 
 export var speed = 12000
 export var punch_force = 100
@@ -32,6 +35,8 @@ var bump_emitting = 0
 const max_speed = 8
 const accel = 2000
 const friction = 100
+const default_color = Color(40.0/255.0,192.0/255.0,116.0/255.0)
+const charging_time = 40
 
 signal hit_player
 signal wall_impact(wall, body, hit_speed)
@@ -119,6 +124,18 @@ func _process(delta):
 	bump_emitting -= delta
 	bump_particles.emitting = (bump_emitting >= 0)
 	
+	if charging > 0:
+		var shade = (30 - charging)
+		var newParticleColor = Color((default_color.r + shade*6)/255.0, (default_color.g - shade)/255.0, (default_color.b - shade)/255.0)
+		var newModulateColor = Color(1 + shade/15.0, (255 - shade * 5)/255.0, (255 - shade * 5)/255.0)
+		#upper_particles.color = newParticleColor
+		#lower_particles.color = newParticleColor
+		sprite.modulate = newModulateColor
+	else:
+		sprite.modulate = Color(1, 1, 1)
+		upper_particles.color = default_color
+		lower_particles.color = default_color
+		
 	
 	if frametime < 10: frametime += 1
 	if flyingTime > 0: flyingTime -= 1
@@ -153,7 +170,7 @@ func _process(delta):
 func _on_ChargeRange_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.name == "PlayerBody" && charge_cooldown == 0 && rng.randf() < charge_chance:
 		preparing = true
-		charging = 30
+		charging = charging_time
 		charge_cooldown = 200
 		charge_vector = global_position.direction_to(player.global_position).normalized()
 	pass # Replace with function body.
