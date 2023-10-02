@@ -1,10 +1,10 @@
 extends Node
 
-
 func stop_music():
 	$"musicBGM".stop()
 	$"musicTitle".stop()
 	$"musicEndGame".stop()
+	$"musicGameOver".stop()
 	
 
 func play_music(sound_name):
