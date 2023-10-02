@@ -1,14 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Scripts/ScreenPolygon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Scenes/Josh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Scripts/ScreenArea.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Scripts/Arena.gd" type="Script" id=6]
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 4.12311
+
 [node name="Arena" type="Node2D"]
 script = ExtResource( 6 )
 
 [node name="Arena_Anchor" type="KinematicBody2D" parent="."]
+collision_layer = 32
+collision_mask = 32
 
 [node name="Area2D" type="Area2D" parent="Arena_Anchor"]
 script = ExtResource( 3 )
@@ -22,6 +27,9 @@ script = ExtResource( 1 )
 
 [node name="ScreenCollision" type="CollisionPolygon2D" parent="Arena_Anchor/Area2D"]
 polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
+
+[node name="Anchor_Collision" type="CollisionShape2D" parent="Arena_Anchor"]
+shape = SubResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
