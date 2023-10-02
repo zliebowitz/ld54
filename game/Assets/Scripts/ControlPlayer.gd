@@ -21,6 +21,8 @@ var rotation_dir = 0
 var screen_size # Size of the game window.
 var heavy_kick = -1
 var kick_right_animation = true
+var knockout_timer = 0	
+
 
 var mouse_direction_has_priority = !Input.is_joy_known(0)
 
@@ -31,6 +33,7 @@ const heavy_kick_power = 1200
 const heavy_kick_speed = 1000
 const heavy_kick_winddown = .2
 const heavy_kick_winddown_friction = friction * 75
+const knockout_time = 45			#How long you can be kicked off screen
 
 signal wallnudge
 
@@ -178,6 +181,10 @@ func _process(delta):
 		_animated_sprite.play("idle")
 	else:
 		_animated_sprite.play("walk")
+	if knockout_timer > 0: knockout_timer -= 1
+	else: collision_mask = 17
 
 func _on_hit_player():
+	collision_mask = 1
+	knockout_timer = knockout_time
 	pass

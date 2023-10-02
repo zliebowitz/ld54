@@ -34,6 +34,7 @@ colors = PoolColorArray( 1, 0, 0, 0.682353, 1, 0.188235, 0, 1, 1, 0.701961, 0, 1
 
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
 position = Vector2( 325, 200 )
+collision_mask = 17
 script = ExtResource( 3 )
 
 [node name="KickAnimation" type="AnimatedSprite" parent="PlayerBody"]

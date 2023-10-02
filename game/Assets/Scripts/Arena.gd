@@ -9,6 +9,7 @@ var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
 var enemySpawner= load("res://Assets/Scenes/EnemySpawner.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
+var rigidwall =   load("res://Assets/Scenes/RigidWall.tscn")
 var tearerRatio = .3
 var framelock = false
 var pointangle
@@ -118,13 +119,22 @@ func _on_fillwalls(shape):
 		if n.name != "Area2D": area.remove_child(n)
 	for i in shape.size():
 		var wallarea = wall.instance()
+		var rigidwallarea = rigidwall.instance()
 		var segment = wallarea.get_child(0)
+		var segment2 = rigidwallarea.get_child(0)
 		segment.shape = SegmentShape2D.new()
 		segment.shape.a = shape[i-1]
+		segment2.shape = SegmentShape2D.new()
+		segment2.shape.a = shape[i-1]
 		if i == shape.size():
 			segment.shape.b = shape[0]
-		else: segment.shape.b = shape[i]
+			segment2.shape.b = shape[0]
+		else: 
+			segment.shape.b = shape[i]
+			segment2.shape.b = shape[i]
 		area.add_child(wallarea)
+		area.add_child(rigidwallarea)
+	print(area.get_children())
 		#wallarea.connect("wall_impact", self, "_on_wall_impacted")
 	#print(area.get_children())
 	

@@ -33,4 +33,5 @@ func _process(delta):
 
 
 func _on_start_button_pressed():
+	Global.items_collected = 0
 	get_tree().change_scene_to(next_scene)
