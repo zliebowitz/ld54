@@ -53,17 +53,17 @@ func is_position_in_viewport(position: Vector2):
 	
 func _draw():
 	if(draw_circle):
-		for point in indicator_locations:
-			draw_circle(point, circle_radius, circle_color)
+		for point_dist in indicator_locations:
+			draw_circle(point_dist[0], circle_radius, circle_color)
 	if(draw_line):
 		for point in item_positions:
 			draw_line(player_position, point, line_color, line_width)
 	if(draw_sprite_indicator):
 		var i = 0
-		for point in indicator_locations:
-			var angle_to_item = player_position.angle_to_point(point)+PI
-			var scale = 1
-			draw_set_transform(point, angle_to_item, scale * Vector2.ONE)
+		for point_dist in indicator_locations:
+			var angle_to_item = player_position.angle_to_point(point_dist[0])+PI
+			var scale = min(5, max(1, 1000 / point_dist[1]))
+			draw_set_transform(point_dist[0], angle_to_item, scale * Vector2.ONE)
 			draw_texture(sprite_indicator, -sprite_origin)
 			draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 			i += 1
@@ -91,14 +91,17 @@ func _process(delta):
 	item_positions.clear()
 	indicator_locations.clear()
 	var array_of_nodes = get_tree().get_nodes_in_group ( tracking_group )
+	var items_in_viewport = 0
 	for _item in array_of_nodes:
 		if(!is_position_in_viewport(_item.global_position)):
 			item_positions.append(_item.global_position)
+		else:
+			 items_in_viewport = 0
 
-	if item_positions.size() > max_to_show:
+	if item_positions.size() + items_in_viewport > max_to_show:
 		var sorter = PointSorter.new(player_position)
 		item_positions.sort_custom(sorter, "compare")
-		item_positions = item_positions.slice(0, max_to_show)
+		item_positions = item_positions.slice(0, max_to_show - 1 - items_in_viewport)
 
 	for p2 in item_positions:	
 			var deltay = p2.y - player_position.y
@@ -126,9 +129,12 @@ func _process(delta):
 				p4.y = get_corrected_viewport_rect().position.y + viewport_offset
 				p4.x = (p4.y - y_intercept)/slope
 			
-			if(player_position.distance_to(p4) <= player_position.distance_to(p3)):
-				indicator_locations.append(p4)
+			var dist_to_p4 = player_position.distance_to(p4)
+			var dist_to_p3 = player_position.distance_to(p3)
+			var dist_to_p2 = player_position.distance_to(p2)
+			if(dist_to_p4 <= dist_to_p3):
+				indicator_locations.append([p4, dist_to_p2])
 			else:
-				indicator_locations.append(p3)
+				indicator_locations.append([p3, dist_to_p2])
 			
 	update()

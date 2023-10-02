@@ -163,6 +163,7 @@ playing = true
 [node name="AnimatedRain" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 176 )
 frames = SubResource( 12 )
+frame = 2
 playing = true
 
 [node name="Sprite" type="Sprite" parent="."]
