@@ -9,15 +9,21 @@ onready var collision = $CollisionShape2D
 export var speed = 12000
 export var punch_force = 100
 export var boid_force = 200
+export var charge_force = 3000
+export var charge_chance = .2
 onready var player = get_node("../../Player/PlayerBody")
 onready var raycast = get_node("WallRayCast")
 var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var preparing = false
+var charging = 0
+var charge_cooldown = 0
+var charge_vector = Vector2.ZERO
 var norm_velocity = Vector2.ZERO
 var frametime = 0
 var flyingTime = 0
 var heavy_kicked = false
+var rng = RandomNumberGenerator.new()
 
 const max_speed = 8
 const accel = 2000
@@ -28,12 +34,13 @@ signal wall_impact(wall, body, hit_speed)
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	rng.randomize()
 	add_to_group("enemy")
 	self.connect("hit_player", player, "_on_hit_player")
 	
 func _physics_process(delta):
 	if !heavy_kicked:
-		if player && flyingTime == 0:
+		if player && flyingTime == 0 && !charging:
 			var my_position = global_position
 			var player_position = player.global_position
 			norm_velocity = my_position.direction_to(player_position).normalized()
@@ -51,6 +58,8 @@ func _physics_process(delta):
 		pass
 	
 	if flyingTime > 0:
+		charging = 0
+		preparing = false
 		$WallRayCast.cast_to = (velocity * delta * 2).rotated(-rotation)
 		raycast.force_raycast_update()
 		#print(raycast.get_collider())
@@ -62,6 +71,10 @@ func _physics_process(delta):
 			screen_tear.global_position = global_position
 			screen_tear.rotation = $WallRayCast.get_collision_normal().angle()
 			get_parent().get_parent().add_child(screen_tear)
+			
+	if preparing && charging == 0:
+		velocity += charge_vector * charge_force
+		preparing = false
 			
 	else: raycast.cast_to = Vector2.ZERO
 	
@@ -84,6 +97,7 @@ func _physics_process(delta):
 func _process(delta):
 	if frametime < 10: frametime += 1
 	if flyingTime > 0: flyingTime -= 1
+	if charging > 0: charging -= 1
 
 
 
@@ -108,3 +122,12 @@ func _process(delta):
 #		player.move_and_collide(norm_velocity * punch_force)
 #		emit_signal("hit_player")
 #	preparing = false
+
+
+func _on_ChargeRange_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	if body.name == "PlayerBody" && charge_cooldown == 0 && rng.randf() < charge_chance:
+		preparing = true
+		charging = 30
+		charge_cooldown = 200
+		charge_vector = global_position.direction_to(player.global_position).normalized()
+	pass # Replace with function body.
