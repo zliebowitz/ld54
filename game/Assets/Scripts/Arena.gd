@@ -120,6 +120,8 @@ func _process(delta):
 			var player_killed = scene.instance()
 			player_killed.global_position = $Player/PlayerBody.position
 			add_child(player_killed)
+			$Player/PlayerBody.hide()
+			$Player/PlayerBody.accel = 0
 			$PostDeathTimer.start()
 	
 func _on_PostDeathTimer_timeout():
