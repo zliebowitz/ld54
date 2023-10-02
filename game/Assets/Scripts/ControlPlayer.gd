@@ -26,10 +26,10 @@ var knockout_timer = 0
 
 var mouse_direction_has_priority = !Input.is_joy_known(0)
 
-const max_speed = 12
+const max_speed = 14
 var accel = 2000
 const friction = 80
-const heavy_kick_power = 1200
+const heavy_kick_power = 1600
 const heavy_kick_speed = 1000
 const heavy_kick_winddown = .2
 const heavy_kick_winddown_friction = friction * 75
@@ -104,7 +104,7 @@ func _physics_process(delta):
 				var enemy_direction = global_position.direction_to(body.global_position) * 0.4
 				var fling_vector = (kick_direction + enemy_direction).normalized()
 				var angle_between = abs(kick_direction.angle_to(enemy_direction))
-				var angular_ratio = pow(1 - (angle_between / (2*PI)),4)
+				var angular_ratio = 1
 				if (angle_between > PI/2):
 					angular_ratio = 0
 				body.velocity += fling_vector * kick_power * angular_ratio

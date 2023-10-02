@@ -51,7 +51,7 @@ func _physics_process(delta):
 			var norm_velocity = my_position.direction_to(objective_point).normalized()
 			rotation =  norm_velocity.angle() + PI/2
 			
-			velocity += norm_velocity * accel * delta
+			velocity += norm_velocity * accel * delta * (1 + (Global.items_collected / 8.0))
 		
 		if charging:
 			rotation = lerp_angle(rotation, -(angle + PI/2), .3)
