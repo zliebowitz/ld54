@@ -152,18 +152,18 @@ texture = ExtResource( 1 )
 [node name="AnimatedScreen" type="AnimatedSprite" parent="."]
 position = Vector2( 309, 101 )
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="AnimatedSign" type="AnimatedSprite" parent="."]
 position = Vector2( 250, 191 )
 frames = SubResource( 21 )
-frame = 6
+frame = 1
 playing = true
 
 [node name="AnimatedRain" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 176 )
 frames = SubResource( 12 )
+frame = 3
 playing = true
 
 [node name="Sprite" type="Sprite" parent="."]
