@@ -75,6 +75,7 @@ shape = SubResource( 3 )
 
 [node name="HeavyKickParticles" type="CPUParticles2D" parent="PlayerBody"]
 position = Vector2( 36, 0 )
+emitting = false
 amount = 100
 lifetime = 0.25
 emission_shape = 1
