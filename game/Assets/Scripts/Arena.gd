@@ -7,6 +7,7 @@ onready var arena = get_node("Arena_Anchor/Area2D/ScreenPolygon")
 var rng = RandomNumberGenerator.new()
 var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
+var enemySpawner= load("res://Assets/Scenes/EnemySpawner.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
 var tearerRatio = .3
 var framelock = false
@@ -23,7 +24,7 @@ func _ready():
 	_on_fillwalls(arena.polygon)
 	
 func _spawn_enemies(point: Vector2):
-	var enemy
+	"""var enemy
 	#Determines if it is a Tearer or a Pusher
 	if (rng.randf() < tearerRatio):
 		enemy = enemyTearer.instance()
@@ -41,7 +42,17 @@ func _spawn_enemies(point: Vector2):
 		add_child(enemy)
 	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
 	enemy.get_node("KinematicBody2D").connect("wall_impact", self, "_on_wall_impacted")
-	enemy.add_to_group("enemies")
+	enemy.add_to_group("enemies")"""
+	
+	var spawner = enemySpawner.instance()
+	spawner.position = $Arena_Anchor.to_global(point)
+	var spawnType = 1
+	if (rng.randf() < tearerRatio):
+		spawnType = 0
+	spawner.spawnType = spawnType
+	add_child(spawner)
+	
+	
 
 func _find_point(edge: bool):
 	var a1
