@@ -23,7 +23,7 @@ var velocity = Vector2.ZERO
 var screen_size # Size of the game window.
 var preparing = false
 var charging = 0
-var charge_cooldown = 0
+var charge_cooldown = 20
 var charge_at_time = 0 			#How long we stay actually charging at the player
 var charge_vector = Vector2.ZERO
 var norm_velocity = Vector2.ZERO
