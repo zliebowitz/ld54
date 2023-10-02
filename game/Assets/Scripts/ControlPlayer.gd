@@ -5,6 +5,7 @@ onready var _kick_sprite = $KickAnimation
 onready var _player_kick = $PlayerKick
 onready var _player_heavy_kick = $PlayerHeavyKick
 onready var _timer= $CanKickAgainTimer
+onready var _heavy_kick_particles = $HeavyKickParticles
 
 export (int) var speed = 100
 export var kick_power = 2000
@@ -85,7 +86,7 @@ func _physics_process(delta):
 	get_input(delta)
 
 	#Process regular kick.
-	if !_timer.is_stopped() && _timer.time_left < .25:
+	if !_timer.is_stopped():
 		var kicked_enemy = false
 		# documentations uggests that the below may use lst fram's velocity
 		var bodies =  _player_kick.get_overlapping_bodies()
@@ -129,7 +130,6 @@ func _physics_process(delta):
 					var normal = w.get_child(0).shape.a.angle_to_point(w.get_child(0).shape.b) + PI/2
 					emit_signal("wallnudge", normal, heavy_kick_screen_movement)
 	
-	
 	velocity += input_vector * accel * delta
 	if heavy_kick >= 0:
 		# TODO: Replace with joystick/mouse direction 
@@ -167,8 +167,12 @@ func _process(delta):
 	if _timer.is_stopped():
 		_kick_sprite.visible = false
 		
-	
-	if !_timer.is_stopped():
+	if heavy_kick >= 0:
+		_heavy_kick_particles.emitting = true
+	else:
+		_heavy_kick_particles.emitting = false
+		
+	if !_timer.is_stopped() || heavy_kick >= 0:
 		_animated_sprite.play("kick")
 	elif velocity == Vector2.ZERO:
 		_animated_sprite.play("idle")
