@@ -25,8 +25,9 @@ const max_speed = 12
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
+	if name == "World": $View_Anchor/KickableCounter/KinematicBody2D/ObjectCounter/Counter.text = str(Global.items_collected)
 	$Arena/Player/PlayerBody.connect("wallnudge", self, "_on_Arena_wallnudge")
-	if $Item: $Item.connect("item_picked_up", self, "on_item_pick_up")
+	if name == "World": $Item.connect("item_picked_up", self, "on_item_pick_up")
 	
 	var polygon : Polygon2D = get_node("Polygon2D")
 	var points : PoolVector2Array = polygon.polygon
@@ -86,6 +87,7 @@ func _spawn_item():
 	
 func on_item_pick_up():
 	Global.items_collected += 1
+	$View_Anchor/KickableCounter/KinematicBody2D/ObjectCounter/Counter.text = str(Global.items_collected)
 	if(Global.items_collected >= Global.item_win_count):
 		get_tree().change_scene("res://Assets/Scenes/CutScene.tscn")
 		$"/root/Sounds".stop_music()

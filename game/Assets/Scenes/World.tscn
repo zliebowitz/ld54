@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Scenes/Arena.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Scripts/World.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Assets/Graphics/Words/Punch3.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Graphics/Words/Controls.png" type="Texture" id=11]
 [ext_resource path="res://Assets/Graphics/Words/KnockOut.png" type="Texture" id=12]
+[ext_resource path="res://Assets/UI/Widgets/UI_KickableCounter.tscn" type="PackedScene" id=13]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Background.png 0"
@@ -75,6 +76,18 @@ position = Vector2( 480, 264 )
 current = true
 zoom = Vector2( 1.5, 1.5 )
 
+[node name="KickableCounter" parent="View_Anchor" instance=ExtResource( 13 )]
+position = Vector2( 886, 25 )
+
+[node name="SideParticle1" parent="View_Anchor/KickableCounter/KinematicBody2D" index="0"]
+visible = false
+
+[node name="SideParticle2" parent="View_Anchor/KickableCounter/KinematicBody2D" index="1"]
+visible = false
+
+[node name="Counter" parent="View_Anchor/KickableCounter/KinematicBody2D/ObjectCounter" index="0"]
+text = "1"
+
 [node name="IndicatorManager" parent="." instance=ExtResource( 3 )]
 player_node = NodePath("../Arena/Player/PlayerBody")
 camera2D = NodePath("../View_Anchor/Camera2D")
@@ -135,3 +148,5 @@ texture = ExtResource( 12 )
 
 [editable path="Arena"]
 [editable path="Arena/Player"]
+[editable path="View_Anchor/KickableCounter"]
+[editable path="View_Anchor/KickableCounter/KinematicBody2D/ObjectCounter"]
