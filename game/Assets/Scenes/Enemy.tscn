@@ -72,5 +72,4 @@ collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource( 3 )
 
-[connection signal="body_shape_entered" from="KinematicBody2D/CloseRange" to="KinematicBody2D" method="_on_CloseRange_body_shape_entered"]
 [connection signal="timeout" from="KinematicBody2D/Timer" to="KinematicBody2D" method="_on_Timer_timeout"]

@@ -12,6 +12,7 @@ export var draw_circle = true
 export var circle_radius = 5
 export var circle_color = Color.coral
 export var viewport_offset = 20
+export var max_to_show = 10
 
 
 export (Texture) var sprite_indicator setget _set_sprite_indicator
@@ -66,6 +67,18 @@ func _draw():
 			draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 			i += 1
 
+	
+class PointSorter:
+	var player_position : Vector2
+	
+	func _init(player_pos):
+		player_position = player_pos
+		
+	func compare(a : Vector2, b : Vector2):
+		var a_dist_squared = player_position.distance_squared_to(a)
+		var b_dist_squared = player_position.distance_squared_to(b)
+		return a_dist_squared < b_dist_squared
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
@@ -80,10 +93,13 @@ func _process(delta):
 	for _item in array_of_nodes:
 		if(!is_position_in_viewport(_item.global_position)):
 			item_positions.append(_item.global_position)
-			
-			var item_position = _item.global_position
-			var p2 = _item.global_position	
-			
+
+	if item_positions.size() > max_to_show:
+		var sorter = PointSorter.new(player_position)
+		item_positions.sort_custom(sorter, "compare")
+		item_positions = item_positions.slice(0, max_to_show)
+
+	for p2 in item_positions:	
 			var deltay = p2.y - player_position.y
 			var deltax = p2.x - player_position.x
 			var slope = 0.0		
@@ -115,6 +131,3 @@ func _process(delta):
 				indicator_locations.append(p3)
 			
 	update()
-
-
-

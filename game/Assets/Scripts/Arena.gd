@@ -5,21 +5,20 @@ onready var arena = get_node("Arena_Anchor/Area2D/ScreenPolygon")
 var rng = RandomNumberGenerator.new()
 var enemyPusher = load("res://Assets/Scenes/Enemy.tscn")
 var enemyTearer = load("res://Assets/Scenes/EnemyTearer.tscn")
-var item01        =  load("res://Assets/Scenes/Item.tscn")
 var wall		= load("res://Assets/Scenes/WallAreas.tscn")
 var tearerRatio = .3
 var framelock = false
-var items = 0;
 var pointangle
 
 signal wallnudge(direction)
+signal player_is_dead
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
 	#$EnemyCutter/KinematicBody2D.connect("cut_event", $Area2D/ScreenPolygon, "_on_EnemyCutter_cut_event")
 	arena = $"Arena_Anchor/Area2D/ScreenPolygon"
-	$Timer.start(1)
+	$Timer.start(2)
 	_on_fillwalls(arena.polygon)
 	
 func _spawn_enemies(point: Vector2):
@@ -42,16 +41,6 @@ func _spawn_enemies(point: Vector2):
 	enemy.get_node("KinematicBody2D").position = $Arena_Anchor.to_global(point)
 	enemy.get_node("KinematicBody2D").connect("wall_impact", self, "_on_wall_impacted")
 	enemy.add_to_group("enemies")
-
-func _spawn_item(point: Vector2):
-	if(items > 2):
-		return
-	var item
-	item = item01.instance()
-	add_child(item)
-	item.position = point
-	item.connect("picked_up", self, "on_item_pickup")
-	
 
 func _find_point(edge: bool):
 	var a1
@@ -88,12 +77,6 @@ func _on_Timer_timeout():
 	var randomPoint = _find_point(false)
 	#print(randomPoint)
 	_spawn_enemies(randomPoint)
-	
-	var randomPointItem = _find_point(false)
-	_spawn_item(randomPointItem)
-	
-func on_item_pickup():
-	items += 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -104,11 +87,11 @@ func _process(delta):
 	for hitlist in baddies:			#See if any enemies are outsize the zone. If so, kill them
 		var body = hitlist.get_node("KinematicBody2D")   #The actual body of the enemy
 		if !Geometry.is_point_in_polygon(arena.to_local(body.position), arena.polygon) && body.frametime > 9:
-			#print(hitlist.get_node("../Arena_Anchor/Area2D/ScreenPolygon").to_local(body.position))
 			hitlist.queue_free()
-			#print(hitlist.get_node("KinematicBody2D").position)
-			
-	#pass
+	#Check for death
+	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
+		#print("Thou art dead")
+		emit_signal("player_is_dead")
 	
 func _on_framelock(status):
 	framelock = status

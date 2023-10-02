@@ -2,6 +2,7 @@ extends Node2D
 
 
 onready var arena = get_node("Arena/Arena_Anchor")
+var item01 = load("res://Assets/Scenes/Item.tscn")
 var speed = 5000
 var friction = 0.1
 var viewfriction = 0.2
@@ -10,11 +11,24 @@ var acceleration = 0.1
 var input_velocity = Vector2.ZERO
 var velocity = Vector2.ZERO
 var viewvelocity = Vector2.ZERO
-
+var items_to_spawn = 14
+var min_x = 9999999
+var max_x = -9999999
+var min_y = 9999999
+var max_y = -9999999
+const itemWinCount = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var polygon : Polygon2D = get_node("Polygon2D")
+	var points : PoolVector2Array = polygon.polygon
+	for point in points:
+		min_x = min(min_x, point.x)
+		max_x = max(max_x, point.x)
+		min_y = min(min_y, point.y)
+		max_y = max(max_y, point.y)
+	for i in range(items_to_spawn):
+		_spawn_item()
 
 func _physics_process(delta):
 
@@ -43,6 +57,21 @@ func _physics_process(delta):
 	#viewvelocity = $View_Anchor.move_and_slide(viewvelocity)
 #	pass
 
+func _spawn_item():
+	var item = item01.instance()
+	add_child(item)
+	item.position = Vector2(rand_range(min_x, max_x), rand_range(min_y, max_y))
+	item.connect("item_picked_up", self, "on_item_pick_up")
+	
+func on_item_pick_up():
+	Global.items_collected += 1
+	if(Global.items_collected >= itemWinCount):
+		var player = get_node("Arena/Player/PlayerBody")
+		player.accel = 0
+		var simultaneous_scene = preload("res://Assets/UI/UI_EndGame.tscn").instance()
+		simultaneous_scene
+		get_tree().get_root().add_child(simultaneous_scene)
+		simultaneous_scene.get_node("VBoxContainer/Counter").set_text("WIN")
 
 func _on_Arena_wallnudge(direction, hit_speed):
 	var right = Vector2.RIGHT

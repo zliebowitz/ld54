@@ -22,7 +22,7 @@ var kick_right_animation = true
 var mouse_direction_has_priority = true
 
 const max_speed = 12
-const accel = 2000
+var accel = 2000
 const friction = 80
 const heavy_kick_power = 1200
 const heavy_kick_speed = 1000
