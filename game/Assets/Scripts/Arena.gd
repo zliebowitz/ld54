@@ -88,10 +88,15 @@ func _get_pointangle():
 
 #Also sets difficulty
 func _on_Timer_timeout():
-	var randomPoint = _find_point(false)
+	var randomPoint
 	$Timer.start(2 - (Global.items_collected / 5))
 	if bSpawnEnemies && Global.items_collected > 0:
-		_spawn_enemies(randomPoint)
+		var number_to_spawn = rng.randi_range(1, (Global.items_collected/2) + 1)
+		print(number_to_spawn)
+		for i in number_to_spawn:
+			randomPoint = _find_point(false)
+			_spawn_enemies(randomPoint)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
