@@ -1,8 +1,49 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/UI/GameTheme.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/UI/Assets/Button_BG.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Graphics/orb.png" type="Texture" id=3]
+[ext_resource path="res://Assets/UI/Widgets/AnimatedSprite.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Graphics/Items/Item_strip8.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 4 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="ObjectCounter" type="NinePatchRect"]
 margin_top = -16.0
@@ -13,18 +54,6 @@ patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 3
 patch_margin_bottom = 4
-
-[node name="Icon" type="TextureRect" parent="."]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -42.0
-margin_top = -38.5
-margin_right = 35.0
-margin_bottom = 38.5
-texture = ExtResource( 3 )
-stretch_mode = 1
 
 [node name="Counter" type="Label" parent="."]
 anchor_top = 0.5
@@ -37,3 +66,8 @@ theme = ExtResource( 1 )
 text = "5"
 align = 1
 valign = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 62, 16 )
+frames = SubResource( 9 )
+script = ExtResource( 3 )
