@@ -13,7 +13,6 @@ var framelock = false
 var pointangle
 
 signal wallnudge(direction)
-signal player_is_dead
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -96,7 +95,11 @@ func _process(delta):
 	#Check for death
 	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
 		#print("Thou art dead")
-		emit_signal("player_is_dead")
+		var player = get_node("Player/PlayerBody")
+		player.accel = 0
+		var simultaneous_scene = preload("res://Assets/UI/UI_EndGame.tscn").instance()
+		simultaneous_scene
+		get_tree().get_root().add_child(simultaneous_scene)
 	
 func _on_framelock(status):
 	framelock = status
