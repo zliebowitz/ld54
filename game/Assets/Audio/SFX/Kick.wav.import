@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/BGM.wav-b44e25a00bcb9e58467d8e10e9c29555.sample"
+path="res://.import/Kick.wav-b755bfd7a11ccc2c3d6c89f7be307388.sample"
 
 [deps]
 
-source_file="res://Assets/Audio/Music/BGM.wav"
-dest_files=[ "res://.import/BGM.wav-b44e25a00bcb9e58467d8e10e9c29555.sample" ]
+source_file="res://Assets/Audio/SFX/Kick.wav"
+dest_files=[ "res://.import/Kick.wav-b755bfd7a11ccc2c3d6c89f7be307388.sample" ]
 
 [params]
 
@@ -17,7 +17,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop_mode=2
+edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
 compress/mode=0
