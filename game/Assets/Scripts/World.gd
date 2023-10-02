@@ -4,8 +4,8 @@ export var bSpawnObjects = true
 
 onready var arena = get_node("Arena/Arena_Anchor")
 var item01 = load("res://Assets/Scenes/Item.tscn")
-var speed = 5000
-var friction = 0.1
+var speed = 1
+var friction = 80
 var viewfriction = 0.2
 var cameraspeed = 10
 var acceleration = 0.1
@@ -17,6 +17,9 @@ var min_x = 9999999
 var max_x = -9999999
 var min_y = 9999999
 var max_y = -9999999
+
+const max_speed = 12
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -46,8 +49,8 @@ func _physics_process(delta):
 		input_velocity.y += 1
 	if Input.is_action_pressed("screenup"):
 		input_velocity.y -= 1
-	input_velocity = input_velocity.normalized() * speed
 
+	"""
 	# If there's input, accelerate to the input velocity
 	if input_velocity.length() > 0:
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
@@ -55,7 +58,18 @@ func _physics_process(delta):
 	else:
 		# If there's no input, slow down to (0, 0)
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
-		viewvelocity = viewvelocity.linear_interpolate(Vector2.ZERO, viewfriction)
+		viewvelocity = viewvelocity.linear_interpolate(Vector2.ZERO, viewfriction)"""
+	
+	velocity += input_velocity
+	
+	if velocity.length() > max_speed:
+		velocity -= velocity.normalized() * ((velocity.length() / max_speed) * friction * delta)
+	elif velocity.length() > (friction * delta):
+		velocity -= velocity.normalized() * ((friction) * delta)
+	else:
+		velocity = Vector2.ZERO
+		
+		
 	input_velocity = Vector2.ZERO
 	velocity = arena.move_and_slide(velocity)
 	$View_Anchor.position = lerp($View_Anchor.position, $Arena/Arena_Anchor.position, cameraspeed * delta)
@@ -74,5 +88,8 @@ func on_item_pick_up():
 		get_tree().change_scene("res://Assets/Scenes/GameLevels/EndGame.tscn")
 
 func _on_Arena_wallnudge(direction, hit_speed):
+	print(hit_speed)
+	print(speed)
 	var right = Vector2.RIGHT
 	input_velocity = right.rotated(direction) * speed * hit_speed
+	print(input_velocity)

@@ -106,7 +106,6 @@ func _physics_process(delta):
 				body.velocity += fling_vector * kick_power * angular_ratio
 				body.flyingTime = collision_frames
 		if kicked_enemy:
-			velocity += global_position.direction_to(get_global_mouse_position()) * -200
 			if heavy_kick_charge < 3: heavy_kick_charge += 1
 
 
@@ -124,7 +123,7 @@ func _physics_process(delta):
 				body.flyingTime = collision_frames
 				body.collision.disabled = true
 		if kicked_enemy:
-			velocity *= -1
+			velocity *= .2
 			heavy_kick = heavy_kick_winddown * -1
 		else:
 			var walls = _player_kick.get_overlapping_areas()

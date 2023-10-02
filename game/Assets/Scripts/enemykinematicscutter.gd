@@ -73,7 +73,10 @@ func _physics_process(delta):
 		#print(raycast.get_collider())
 		if raycast.is_colliding():
 			var impactedwall = raycast.get_collider()
-			emit_signal("wall_impact", impactedwall, get_parent(), raycast.cast_to.length())
+			if !heavy_kicked:
+				emit_signal("wall_impact", impactedwall, get_parent(), 500)
+			else:
+				emit_signal("wall_impact", impactedwall, get_parent(), 1000)
 			var scene = load("res://Assets/Scenes/EnemyKilled.tscn")
 			var screen_tear = scene.instance()
 			screen_tear.global_position = global_position
