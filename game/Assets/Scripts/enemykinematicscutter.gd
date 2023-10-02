@@ -117,7 +117,7 @@ func _on_reaching_objective():
 
 func _on_Timer_timeout():
 	emit_signal("cut_event", angle, position)
-	
+	$"/root/Sounds".play_sfx("ScreenTear")
 	var scene = load("res://Assets/Scenes/ScreenTear.tscn")
 	var screen_tear = scene.instance()
 	screen_tear.global_position = global_position
