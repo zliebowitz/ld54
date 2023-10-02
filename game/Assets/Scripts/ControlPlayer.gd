@@ -159,6 +159,16 @@ func _physics_process(delta):
 	#global_position.y = clamp(global_position.y, 0, screen_size.y)
 	
 func _process(delta):
+	
+	
+	var newModulateColor = Color(1 * (1 - heavy_kick_charge/4.0), 1, 1)
+	if heavy_kick_charge == 3:
+		newModulateColor = Color(1.8, .4, 1.8)
+	#upper_particles.color = newParticleColor
+	#lower_particles.color = newParticleColor
+	_animated_sprite.modulate = newModulateColor
+	
+	
 	if(mouse_direction_has_priority):
 		rotation_dir = global_position.angle_to_point(get_global_mouse_position()) + PI
 	else:
