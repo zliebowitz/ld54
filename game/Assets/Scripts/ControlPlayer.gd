@@ -21,7 +21,7 @@ var screen_size # Size of the game window.
 var heavy_kick = -1
 var kick_right_animation = true
 
-var mouse_direction_has_priority = true
+var mouse_direction_has_priority = !Input.is_joy_known(0)
 
 const max_speed = 12
 var accel = 2000
