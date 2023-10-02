@@ -1,6 +1,6 @@
 extends Node2D
 
-signal picked_up
+signal item_picked_up
 
 func _ready():
 	add_to_group("collectibles")
@@ -9,5 +9,5 @@ func _ready():
 func _on_Area2D_body_entered(body):
 	if body.name == "PlayerBody":
 		hide()
-		emit_signal("picked_up")
+		emit_signal("item_picked_up")
 		queue_free()
