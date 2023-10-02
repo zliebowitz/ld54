@@ -26,28 +26,30 @@ position = Vector2( -5, -4 )
 polygon = PoolVector2Array( 4, 4, 956, 4, 956, 524, 4, 524 )
 
 [node name="WallAreas" parent="Arena_Anchor" instance=ExtResource( 8 )]
-position = Vector2( 479, 81 )
+position = Vector2( 638, 2 )
+rotation = 1.20516
+scale = Vector2( 2.68836, 1 )
 
 [node name="WallAreas2" parent="Arena_Anchor" instance=ExtResource( 8 )]
-position = Vector2( 200, 230 )
+position = Vector2( -1.99988, 2 )
+rotation = 1.20516
+scale = Vector2( 2.68836, 1 )
 
 [node name="WallAreas3" parent="Arena_Anchor" instance=ExtResource( 8 )]
-position = Vector2( 214, 201 )
-rotation = -1.26426
+position = Vector2( -1.99988, 2 )
+rotation = -0.134457
+scale = Vector2( 5.16529, 0.689415 )
+
+[node name="WallAreas4" parent="Arena_Anchor" instance=ExtResource( 8 )]
+position = Vector2( -8.99999, 351 )
+rotation = -0.134457
+scale = Vector2( 5.16529, 0.689415 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-
-[node name="PlayerBody" parent="Player" index="0"]
-position = Vector2( 470, 281 )
-
-[node name="KickAnimation" parent="Player/PlayerBody" index="0"]
-frame = 2
+position = Vector2( -382, -23 )
 
 [node name="KickableButton" parent="." instance=ExtResource( 4 )]
-position = Vector2( 346, 235 )
-
-[node name="WallRayCast" parent="KickableButton/KinematicBody2D" index="5"]
-enabled = true
+position = Vector2( 313, 189 )
 
 [node name="TitleSceneManager" type="Node" parent="."]
 script = ExtResource( 6 )
@@ -57,8 +59,3 @@ next_scene = ExtResource( 5 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 autoplay = true
-
-[connection signal="OnHitWall" from="KickableButton/KinematicBody2D" to="TitleSceneManager" method="_on_start_button_pressed"]
-
-[editable path="Player"]
-[editable path="KickableButton"]
