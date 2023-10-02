@@ -106,11 +106,7 @@ func _process(delta):
 	#Check for death
 	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
 		#print("Thou art dead")
-		var player = get_node("Player/PlayerBody")
-		player.accel = 0
-		var simultaneous_scene = preload("res://Assets/UI/UI_EndGame.tscn").instance()
-		simultaneous_scene
-		get_tree().get_root().add_child(simultaneous_scene)
+		get_tree().change_scene("res://Assets/Scenes/GameLevels/EndGame.tscn")
 	
 func _on_framelock(status):
 	framelock = status
