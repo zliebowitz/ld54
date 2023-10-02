@@ -114,8 +114,12 @@ func _process(delta):
 			hitlist.queue_free()
 	#Check for death
 	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
-		#print("Thou art dead")
+		
 		if $PostDeathTimer.is_stopped():
+			var scene = load("res://Assets/Scenes/PlayerDeath.tscn")
+			var player_killed = scene.instance()
+			player_killed.global_position = $Player/PlayerBody.position
+			add_child(player_killed)
 			$PostDeathTimer.start()
 	
 func _on_PostDeathTimer_timeout():
