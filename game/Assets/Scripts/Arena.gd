@@ -115,6 +115,10 @@ func _process(delta):
 	#Check for death
 	if !Geometry.is_point_in_polygon(arena.to_local($Player/PlayerBody.position), arena.polygon):
 		#print("Thou art dead")
+		if $PostDeathTimer.is_stopped():
+			$PostDeathTimer.start()
+	
+func _on_PostDeathTimer_timeout():
 		get_tree().change_scene("res://Assets/Scenes/GameLevels/EndGame.tscn")
 	
 func _on_framelock(status):
