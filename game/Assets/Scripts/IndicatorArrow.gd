@@ -62,7 +62,9 @@ func _draw():
 		var i = 0
 		for point in indicator_locations:
 			var angle_to_item = player_position.angle_to_point(point)+PI
-			draw_set_transform(point, angle_to_item, Vector2.ONE)
+			var distance_to_item = player_position.distance_to(point)
+			var scale = min(5, max(1, 500 / distance_to_item)) 
+			draw_set_transform(point, angle_to_item, scale * Vector2.ONE)
 			draw_texture(sprite_indicator, -sprite_origin)
 			draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 			i += 1
