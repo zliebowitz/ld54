@@ -85,7 +85,7 @@ rect_pivot_offset = Vector2( 337, 6 )
 theme = ExtResource( 8 )
 text = "Aim: 
 Mouse
-RightJoystick"
+RightJoysticK"
 
 [node name="Label6" type="Label" parent="."]
 margin_left = 65.0
@@ -134,13 +134,14 @@ Gems to win the game!"
 align = 1
 
 [node name="Label4" type="Label" parent="."]
-margin_left = 600.0
-margin_top = 405.0
-margin_right = 948.0
-margin_bottom = 464.0
+margin_left = 567.0
+margin_top = 382.0
+margin_right = 915.0
+margin_bottom = 441.0
+rect_scale = Vector2( 1.45667, 1.45667 )
 rect_pivot_offset = Vector2( 266, 6 )
 theme = ExtResource( 8 )
-text = "Heavy kick the edge -->
+text = "HEAVY KICK THE EDGE -->
 To move screen and kill enemies"
 align = 2
 
