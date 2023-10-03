@@ -71,7 +71,7 @@ song = "GameOver"
 [connection signal="wallnudge" from="Arena" to="." method="_on_Arena_wallnudge"]
 [connection signal="OnHitWall" from="Arena/KickableCounter/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
 [connection signal="OnHitWall" from="KickableButton/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
-[connection signal="OnHitWall" from="KickableTitle/KinematicBody2D" to="." method="_on_start_button_pressed"]
+[connection signal="OnHitWall" from="KickableTitle/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
 
 [editable path="Arena"]
 [editable path="Arena/Player"]

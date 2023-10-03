@@ -50,6 +50,7 @@ func _ready():
 	self.connect("hit_player", player, "_on_hit_player")
 	
 func _physics_process(delta):
+	
 	if !heavy_kicked:
 		if player && flyingTime == 0 && !charging:
 			var my_position = global_position

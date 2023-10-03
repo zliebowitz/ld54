@@ -46,7 +46,7 @@ rotation = -0.134457
 scale = Vector2( 5.16529, 0.689415 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( -382, -23 )
+position = Vector2( -270, 13 )
 
 [node name="KickableButton" parent="." instance=ExtResource( 4 )]
 position = Vector2( 313, 189 )
