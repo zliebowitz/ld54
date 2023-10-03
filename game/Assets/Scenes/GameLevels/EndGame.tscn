@@ -28,12 +28,10 @@ texture = ExtResource( 4 )
 [node name="PlayerBody" parent="Arena/Player" index="0"]
 position = Vector2( 499, 445 )
 rotation = 4.71239
+heavy_kick_charge = 9999999
 
 [node name="KickAnimation" parent="Arena/Player/PlayerBody" index="0"]
 frame = 2
-
-[node name="KickableCounter" parent="Arena" instance=ExtResource( 9 )]
-position = Vector2( 488, 174 )
 
 [node name="View_Anchor" type="KinematicBody2D" parent="."]
 
@@ -54,11 +52,14 @@ sprite_indicator = ExtResource( 5 )
 script = ExtResource( 7 )
 next_scene = ExtResource( 10 )
 win_loss_label = NodePath("../KickableTitle/KinematicBody2D/Label")
-item_count_label = NodePath("../Arena/KickableCounter/KinematicBody2D/ObjectCounter/Counter")
+item_count_label = NodePath("../KickableCounter/KinematicBody2D/ObjectCounter/Counter")
 
 [node name="KickableButton" parent="." instance=ExtResource( 6 )]
 position = Vector2( 605, 233 )
 LabelText = "Restart!"
+
+[node name="KickableCounter" parent="." instance=ExtResource( 9 )]
+position = Vector2( 488, 174 )
 
 [node name="KickableTitle" parent="." instance=ExtResource( 6 )]
 position = Vector2( 378, 115 )
@@ -69,13 +70,13 @@ script = ExtResource( 8 )
 song = "GameOver"
 
 [connection signal="wallnudge" from="Arena" to="." method="_on_Arena_wallnudge"]
-[connection signal="OnHitWall" from="Arena/KickableCounter/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
 [connection signal="OnHitWall" from="KickableButton/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
+[connection signal="OnHitWall" from="KickableCounter/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
 [connection signal="OnHitWall" from="KickableTitle/KinematicBody2D" to="EndGameSceneManager" method="_on_start_button_pressed"]
 
 [editable path="Arena"]
 [editable path="Arena/Player"]
-[editable path="Arena/KickableCounter"]
-[editable path="Arena/KickableCounter/KinematicBody2D/ObjectCounter"]
 [editable path="KickableButton"]
+[editable path="KickableCounter"]
+[editable path="KickableCounter/KinematicBody2D/ObjectCounter"]
 [editable path="KickableTitle"]

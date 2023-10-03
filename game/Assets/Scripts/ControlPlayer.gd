@@ -80,7 +80,10 @@ func get_input(delta):
 		if mouse_direction_has_priority:
 			heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
 		else:
-			heavy_kick_vector = aim_vector.normalized()
+			if aim_vector.normalized() != Vector2.ZERO:
+				heavy_kick_vector = aim_vector.normalized()
+			else:
+				heavy_kick_vector = Vector2(cos(rotation),sin(rotation))
 		heavy_kick = .1 + delta
 		
 
