@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Scenes/Arena.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Scripts/World.gd" type="Script" id=2]
@@ -7,11 +7,8 @@
 [ext_resource path="res://Assets/UI/Assets/Arrow_BG.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Scripts/PlayMusic.gd" type="Script" id=6]
 [ext_resource path="res://Assets/Scenes/Item.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Assets/Graphics/Words/KickScreen.png" type="Texture" id=8]
-[ext_resource path="res://Assets/Graphics/Words/Collect.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Graphics/Words/Punch3.png" type="Texture" id=10]
+[ext_resource path="res://Assets/UI/GameTheme.tres" type="Theme" id=8]
 [ext_resource path="res://Assets/Graphics/Words/Controls.png" type="Texture" id=11]
-[ext_resource path="res://Assets/Graphics/Words/KnockOut.png" type="Texture" id=12]
 [ext_resource path="res://Assets/UI/Widgets/UI_KickableCounter.tscn" type="PackedScene" id=13]
 
 [sub_resource type="TileSet" id=1]
@@ -64,29 +61,88 @@ visible = false
 color = Color( 0.470588, 0.254902, 0.254902, 1 )
 polygon = PoolVector2Array( -2500, -2200, 2500, -2200, 2500, 2200, -2500, 2200 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 482, 50 )
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 9 )
-
-[node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 700, 350 )
-texture = ExtResource( 8 )
-
-[node name="Sprite3" type="Sprite" parent="."]
-position = Vector2( 800, 167 )
-scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 10 )
-
 [node name="Sprite4" type="Sprite" parent="."]
 position = Vector2( 190, 480 )
 scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 11 )
 
-[node name="Sprite5" type="Sprite" parent="."]
-position = Vector2( 480, 140 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 12 )
+[node name="Label" type="Label" parent="."]
+margin_left = 318.0
+margin_top = 130.0
+margin_right = 672.0
+margin_bottom = 158.0
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Follow The pink arrows to find more"
+
+[node name="Label5" type="Label" parent="."]
+margin_left = 184.0
+margin_top = 440.0
+margin_right = 538.0
+margin_bottom = 530.0
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Aim: 
+Mouse
+RightJoystick"
+
+[node name="Label6" type="Label" parent="."]
+margin_left = 65.0
+margin_top = 440.0
+margin_right = 419.0
+margin_bottom = 530.0
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Heavy Kick:
+RMB
+Left Trigger"
+
+[node name="Label7" type="Label" parent="."]
+margin_left = -53.9999
+margin_top = 440.0
+margin_right = 300.0
+margin_bottom = 530.0
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Regular Kick:
+LMB
+Right Trigger"
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 594.0
+margin_top = 463.0
+margin_right = 948.0
+margin_bottom = 522.0
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Kick an enemy 3 times
+to get a heavy kick"
+align = 2
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 310.0
+margin_top = 4.0
+margin_right = 658.0
+margin_bottom = 63.0
+rect_pivot_offset = Vector2( 266, 6 )
+theme = ExtResource( 8 )
+text = "Collect 8 Hyperdimensional
+Gems to win the game!"
+align = 1
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 600.0
+margin_top = 405.0
+margin_right = 948.0
+margin_bottom = 464.0
+rect_pivot_offset = Vector2( 266, 6 )
+theme = ExtResource( 8 )
+text = "Heavy kick the edge -->
+To move screen and kill enemies"
+align = 2
 
 [node name="Arena" parent="." instance=ExtResource( 1 )]
 
