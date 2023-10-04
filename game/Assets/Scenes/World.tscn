@@ -62,7 +62,7 @@ color = Color( 0.470588, 0.254902, 0.254902, 1 )
 polygon = PoolVector2Array( -2500, -2200, 2500, -2200, 2500, 2200, -2500, 2200 )
 
 [node name="Sprite4" type="Sprite" parent="."]
-position = Vector2( 190, 480 )
+position = Vector2( 246, 471 )
 scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 11 )
 
@@ -75,11 +75,23 @@ rect_pivot_offset = Vector2( 337, 6 )
 theme = ExtResource( 8 )
 text = "Follow The pink arrows to find more"
 
+[node name="Label8" type="Label" parent="."]
+margin_left = 303.0
+margin_top = 420.0
+margin_right = 657.0
+margin_bottom = 510.0
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 337, 6 )
+theme = ExtResource( 8 )
+text = "Aim: 
+Mouse Motion
+Right Joystick"
+
 [node name="Label5" type="Label" parent="."]
 margin_left = 184.0
-margin_top = 440.0
+margin_top = 420.0
 margin_right = 538.0
-margin_bottom = 530.0
+margin_bottom = 510.0
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 337, 6 )
 theme = ExtResource( 8 )
@@ -89,25 +101,27 @@ Left Joystick"
 
 [node name="Label6" type="Label" parent="."]
 margin_left = 65.0
-margin_top = 440.0
+margin_top = 420.0
 margin_right = 419.0
-margin_bottom = 530.0
+margin_bottom = 541.0
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 337, 6 )
 theme = ExtResource( 8 )
 text = "Heavy Kick:
+RMC
 K
 Left Trigger"
 
 [node name="Label7" type="Label" parent="."]
-margin_left = -53.9999
-margin_top = 440.0
+margin_left = -54.0
+margin_top = 420.0
 margin_right = 300.0
-margin_bottom = 530.0
+margin_bottom = 510.0
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 337, 6 )
 theme = ExtResource( 8 )
 text = "Regular Kick:
+LMC
 J
 Right Trigger"
 
