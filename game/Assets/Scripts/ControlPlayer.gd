@@ -24,8 +24,7 @@ var kick_right_animation = true
 var knockout_timer = 0	
 
 
-#var mouse_direction_has_priority = !Input.is_joy_known(0)
-var mouse_direction_has_priority = false
+var mouse_direction_has_priority = !Input.is_joy_known(0)
 
 const max_speed = 14
 var accel = 2000
@@ -43,8 +42,11 @@ func _ready():
 	screen_size = get_viewport_rect().size
 
 func _input(event):
-	#if event is InputEventMouseMotion:
-	#	mouse_direction_has_priority = true
+	if event is InputEventMouseMotion:
+		mouse_direction_has_priority = true
+	if event is InputEventKey and event.is_pressed():
+		if event.scancode == KEY_J || event.scancode == KEY_K:
+			mouse_direction_has_priority = false
 	pass
 	
 func get_input(delta):
