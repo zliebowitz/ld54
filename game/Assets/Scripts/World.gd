@@ -43,16 +43,6 @@ func _ready():
 
 func _physics_process(delta):
 
-	# Check input for "desired" velocity
-	if Input.is_action_pressed("screenright"):
-		input_velocity.x += 1
-	if Input.is_action_pressed("screenleft"):
-		input_velocity.x -= 1
-	if Input.is_action_pressed("screendown"):
-		input_velocity.y += 1
-	if Input.is_action_pressed("screenup"):
-		input_velocity.y -= 1
-
 	"""
 	# If there's input, accelerate to the input velocity
 	if input_velocity.length() > 0:
