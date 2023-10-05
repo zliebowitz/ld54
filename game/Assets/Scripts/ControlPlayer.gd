@@ -48,6 +48,8 @@ func _input(event):
 	if event is InputEventKey and event.is_pressed():
 		if event.scancode == KEY_J || event.scancode == KEY_K:
 			mouse_direction_has_priority = false
+	if event is InputEventJoypadMotion and abs(event.axis_value) > 0.1:
+		mouse_direction_has_priority = false
 	pass
 	
 func get_input(delta):
@@ -172,8 +174,8 @@ func _physics_process(delta):
 	
 func _process(delta):
 	
-	
-	var newModulateColor = Color(1 * (1 - heavy_kick_charge/4.0), 1, 1)
+	var divisor = float(heavy_kick_limit+1)
+	var newModulateColor = Color(1 * (1 - heavy_kick_charge/divisor), 1, 1)
 	if heavy_kick_charge == heavy_kick_limit:
 		newModulateColor = Color(1.8, .4, 1.8)
 	#upper_particles.color = newParticleColor
