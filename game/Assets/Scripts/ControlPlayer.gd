@@ -10,6 +10,7 @@ onready var _heavy_kick_particles = $HeavyKickParticles
 export (int) var speed = 100
 export var kick_power = 2000
 export var collision_frames = 60 	#Number of frames that a kicked enemy can impact a wall
+export var heavy_kick_limit = 3
 export var heavy_kick_charge = 0
 export var heavy_kick_screen_movement = 500
 
@@ -79,7 +80,7 @@ func get_input(delta):
 		_kick_sprite.frame = 0
 		_timer.start()
 	
-	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0 && heavy_kick_charge >= 3:
+	if Input.is_action_just_pressed("heavy_attack") && heavy_kick < 0 && heavy_kick_charge >= heavy_kick_limit:
 		$"/root/Sounds/".play_sfx("HeavyKick")
 		if mouse_direction_has_priority:
 			heavy_kick_vector = global_position.direction_to(get_global_mouse_position()).normalized()
@@ -117,7 +118,7 @@ func _physics_process(delta):
 				body.velocity += fling_vector * kick_power * angular_ratio
 				body.flyingTime = collision_frames
 		if kicked_enemy:
-			if heavy_kick_charge < 3: heavy_kick_charge += 1
+			if heavy_kick_charge < heavy_kick_limit: heavy_kick_charge += 1
 
 
 
@@ -173,7 +174,7 @@ func _process(delta):
 	
 	
 	var newModulateColor = Color(1 * (1 - heavy_kick_charge/4.0), 1, 1)
-	if heavy_kick_charge == 3:
+	if heavy_kick_charge == heavy_kick_limit:
 		newModulateColor = Color(1.8, .4, 1.8)
 	#upper_particles.color = newParticleColor
 	#lower_particles.color = newParticleColor
